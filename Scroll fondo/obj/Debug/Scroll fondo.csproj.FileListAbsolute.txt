@@ -1,0 +1,30 @@
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.exe.config
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.exe
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.pdb
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.csprojResolveAssemblyReference.cache
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\obj\Debug\Scroll_fondo.Form1.resources
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\obj\Debug\Scroll_fondo.Properties.Resources.resources
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.csproj.GenerateResource.Cache
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.exe
+c:\users\familia\documents\visual studio 2015\Projects\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.pdb
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.exe.config
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.exe
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.pdb
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.exe
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.pdb
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.csprojResolveAssemblyReference.cache
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\obj\Debug\Scroll_fondo.Form1.resources
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\obj\Debug\Scroll_fondo.Properties.Resources.resources
+C:\Users\esau\Documents\C#\Extras\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.csproj.GenerateResource.Cache
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.exe.config
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.exe
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.pdb
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.exe
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\bin\Debug\Scroll fondo.pdb
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.csprojResolveAssemblyReference.cache
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\obj\Debug\Scroll_fondo.Form1.resources
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\obj\Debug\Scroll_fondo.Properties.Resources.resources
+C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\obj\Debug\Scroll fondo.csproj.GenerateResource.Cache
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\bin\Debug\Scroll fondo.exe.config
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.exe
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.pdb
