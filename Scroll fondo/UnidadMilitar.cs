@@ -37,18 +37,17 @@ namespace Scroll_fondo
         }
         private void EscogeAtaqueUnidadMilitar()
         {
-            if(NameUnidad == "Jedi")
+            if(NameUnidad == "Jedi") { ataque = 20; lifeSoldado = 125; /*ancho alto*/ }
+            else
             {
-                ataque = 15;
-                lifeSoldado = 100;
-                //ancho
-                //alto
-            }else
-            {
-                if (NameUnidad == "Sith") { ataque = 10; lifeSoldado = 150; /*ancho alto*/ }
+                if (NameUnidad == "Sith") { ataque = 10; lifeSoldado = 175; /*ancho alto*/ }
                 else
                 {
-                    if (NameUnidad == "storm" || NameUnidad == "robot") { ataque = 5; lifeSoldado = 80;/*ancho alto*/ }
+                    if (NameUnidad == "storm" || NameUnidad == "robot") { ataque = 5; lifeSoldado = 100;/*ancho alto*/ }
+                    else
+                    {
+                        if (NameUnidad == "NaveJedi" || NameUnidad == "NaveSith") { ataque = 25; lifeSoldado = 80; ancho = 172; alto = 221; }
+                    }
                 }
             }
         }

@@ -27,8 +27,6 @@ namespace Scroll_fondo
             painted = false;
             mapX = x1;
             mapY = y1;
-            ancho = 100;
-            alto = 100;
             selected = false;
             lifeEdificio = 150;
             DrawPercLife = lifeEdificio / 3;
