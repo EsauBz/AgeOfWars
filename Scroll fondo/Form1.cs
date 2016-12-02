@@ -13,9 +13,9 @@ namespace Scroll_fondo
 {
     public partial class Form1 : Form
     {
+        /*Inicio  de Variables del Programa* ********/
         Bitmap b = (Bitmap)Image.FromFile("fondo.png");
         Bitmap barra = (Bitmap)Image.FromFile("barr1.png");
-        //Bitmap CU = (Bitmap)Image.FromFile("centrou2.png");
         Player player1;
         int coordmapX;
         int coordmapY;
@@ -31,6 +31,7 @@ namespace Scroll_fondo
         int LimitePantY2 = 4130;
         Pen p;
         System.Timers.Timer t1;
+        /*Inicio de Constructor ************/
         public Form1()
         {
             InitializeComponent();

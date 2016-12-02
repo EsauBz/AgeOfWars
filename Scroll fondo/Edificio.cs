@@ -35,21 +35,15 @@ namespace Scroll_fondo
         }
         private void EligeAtributosEdificio()
         {
-            if (EdificioName == "CUJ")
-            {
-                lifeEdificio = 100;
-                //alto
-                //alto
-            }
+            if (EdificioName == "CUJ") { lifeEdificio = 300; ancho = 597; alto = 368; }
             else
             {
-                if (EdificioName == "Farm") { ataque = 10; lifeSoldado = 150; /*ancho alto*/ }
-                else
-                {
-                    if (NameUnidad == "storm") { ataque = 5; lifeSoldado = 80;/*ancho alto*/ }
+                if (EdificioName == "Farm") { lifeEdificio = 150; ancho = 399; alto = 282; }
+                    {
+                    if (EdificioName == "cuartel") { lifeEdificio = 200; ancho = 532; alto = 368; }
                     else
                     {
-                        if (NameUnidad == "robot") { ataque = 5; lifeSoldado = 80;/*ancho alto*/ }
+                        if (EdificioName == "CUS") { lifeEdificio = 300; ancho = 597; alto = 368; }
                     }
                 }
             }
