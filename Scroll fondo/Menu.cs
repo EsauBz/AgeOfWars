@@ -39,9 +39,9 @@ namespace Scroll_fondo
         {
             bot = new boton(80, 200, "jedi.jpg", 40, 100);
             botones.Add(bot);
-            bot = new boton(910, 200, "sith.jpg", 40, 100);
+            bot = new boton(860, 200, "sith.jpg", 40, 100);
             botones.Add(bot);
-            bot = new boton(470, 450, "volver.jpg", 40, 100);
+            bot = new boton(460, 450, "volver.jpg", 40, 100);
             botones.Add(bot);
         }
 

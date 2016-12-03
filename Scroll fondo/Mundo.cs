@@ -21,10 +21,10 @@ namespace Scroll_fondo
             player1 = new Player();
             RecursoMineral = new List<Mineral>();
             RecursoComida = new List<Comida>();
-            if (i == 1) { escenario = (Bitmap)Image.FromFile("fondo2.png"); }
+            if (i == 1) { escenario = (Bitmap)Image.FromFile("fondo.png"); }
             else
             {
-                escenario = (Bitmap)Image.FromFile("fondo.png");
+                escenario = (Bitmap)Image.FromFile("fondo2.png");
             }
             coordmapX = -player1.getCoordInicalMapX() + 350;
             coordmapY = -player1.getCoordInicalMapY() + 150;

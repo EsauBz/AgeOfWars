@@ -26,7 +26,7 @@ namespace Scroll_fondo
         int LimitePantX1 = 0;
         int LimitePantY1 = 0;
         int LimitePantX2 = 4003;
-        int LimitePantY2 = 4130;
+        int LimitePantY2 = 4123;
         Pen p;
         System.Timers.Timer t1 = new System.Timers.Timer();
         /*Inicio de Constructor ************/
@@ -70,6 +70,7 @@ namespace Scroll_fondo
         {
             World.getPlayer().revisaRecogidaAldeanos();
         }
+
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             grap = e.Graphics;
@@ -90,7 +91,7 @@ namespace Scroll_fondo
                             }
                         }
                     }
-                    grap.DrawImage(World.getImgBarra(), 0, 420);
+                    grap.DrawImage(World.getImgBarra(), 0, this.ClientSize.Height - World.getImgBarra().Size.Height); //416
                     break;               
                 case '2':
                     grap.DrawImage(menu.getImgfondo(), 0, 0);
@@ -278,7 +279,7 @@ namespace Scroll_fondo
         public void StartBando() /**Este metodo se manda llamar en MouseMenu **************/
         {
             opc = '2';
-            menu = new Menu("bando4.jpg");
+            menu = new Menu("bando5.jpg");
             menu.getBotones().Clear();
             menu.GeneraBotonesBando();
             Invalidate();
@@ -308,10 +309,10 @@ namespace Scroll_fondo
                     if (x > menu.getBotones()[2].getX() && x < menu.getBotones()[2].getX() + menu.getBotones()[2].getAncho() && y > menu.getBotones()[2].getY() && y < menu.getBotones()[2].getY() + menu.getBotones()[2].getAlto())
                     {
                         menuStart();
-                        Invalidate();
                     }
                 }
             }
+            Invalidate();
         }
         private void AyudaMenu(int x, int y)
         {
