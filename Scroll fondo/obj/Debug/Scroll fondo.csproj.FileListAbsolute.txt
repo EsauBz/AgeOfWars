@@ -28,3 +28,9 @@ C:\Users\esau\Documents\C#\Extras\Proyecto\Scroll fondo\Scroll fondo\obj\Debug\S
 C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\bin\Debug\Scroll fondo.exe.config
 C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.exe
 C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.pdb
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\bin\Debug\Scroll fondo.exe
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\bin\Debug\Scroll fondo.pdb
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.csprojResolveAssemblyReference.cache
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll_fondo.Form1.resources
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll_fondo.Properties.Resources.resources
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.csproj.GenerateResource.Cache
