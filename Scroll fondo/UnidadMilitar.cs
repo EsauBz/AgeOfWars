@@ -22,6 +22,8 @@ namespace Scroll_fondo
         private int lifeSoldado;
         private int DrawPercLife;
         private int ataque;
+        private int costoComida;
+        private int costoMineral;
         public UnidadMilitar(int x1, int y1, string name)
         {
             NameUnidad = name;
@@ -37,16 +39,16 @@ namespace Scroll_fondo
         }
         private void EscogeAtaqueUnidadMilitar()
         {
-            if(NameUnidad == "Jedi") { ataque = 20; lifeSoldado = 125; /*ancho alto*/ }
+            if(NameUnidad == "Jedi") { ataque = 20; lifeSoldado = 125; costoComida = 20; costoMineral = 20;  /*ancho alto*/ }
             else
             {
-                if (NameUnidad == "Sith") { ataque = 10; lifeSoldado = 175; /*ancho alto*/ }
+                if (NameUnidad == "Sith") { ataque = 10; lifeSoldado = 175; costoComida = 20; costoMineral = 20;  /*ancho alto*/ }
                 else
                 {
-                    if (NameUnidad == "storm" || NameUnidad == "robot") { ataque = 5; lifeSoldado = 100;/*ancho alto*/ }
+                    if (NameUnidad == "storm" || NameUnidad == "robot") { ataque = 5; lifeSoldado = 100; costoComida = 10; costoMineral = 10;/*ancho alto*/ }
                     else
                     {
-                        if (NameUnidad == "NaveJedi" || NameUnidad == "NaveSith") { ataque = 25; lifeSoldado = 80; ancho = 172; alto = 221; }
+                        if (NameUnidad == "NaveJedi" || NameUnidad == "NaveSith") { ataque = 25; lifeSoldado = 80; ancho = 172; alto = 221; costoComida = 30; costoMineral = 30; }
                     }
                 }
             }

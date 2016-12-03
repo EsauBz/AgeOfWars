@@ -15,7 +15,11 @@ namespace Scroll_fondo
         public bool bando;
         private List<Aldeano> aldeanos;
         private List<UnidadMilitar> milicia;
-        private List<UnidadMilitar> jedis;
+        private List<UnidadMilitar> Uespecial;
+        private List<UnidadMilitar> Naves;
+        private List<Edificio> CUs;
+        private List<Edificio> Farms;
+        private List<Edificio> Cuarteles;
         // lista de soldados
         //lista de edificios
         public int material;
@@ -54,9 +58,15 @@ namespace Scroll_fondo
         {
             return CoordInicialMapY;
         }
-        public void revisaRecogidaAldeanos(object obj, ElapsedEventHandler arg)
+        public void revisaRecogidaAldeanos()
         {
-
+            foreach (Aldeano a in aldeanos)// Revisar Recogida Aldeanos
+            {
+               /* if (a.getMapX() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() >= bordeY1 && a.getMapY() <= bordeY2)
+                {
+                    
+                }*/
+            }
         }
     }
 }

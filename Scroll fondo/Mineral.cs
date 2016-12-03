@@ -17,10 +17,10 @@ namespace Scroll_fondo
         private int alto;
         private bool painted;
         private int recurso;
-        private int DrawPercLife;
+        private int DrawPercRec;
         public Mineral()
         {
-
+            recurso = 100;
         }
         public void disminuyeRecurso(int quita)
         {

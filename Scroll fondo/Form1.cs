@@ -14,9 +14,10 @@ namespace Scroll_fondo
     public partial class Form1 : Form
     {
         /*Inicio  de Variables del Programa* ********/
-        Bitmap b = (Bitmap)Image.FromFile("fondo.png");
+        Bitmap b = (Bitmap)Image.FromFile("fondo2.png");
         Bitmap barra = (Bitmap)Image.FromFile("barr1.png");
         Player player1;
+        Mundo World;
         int coordmapX;
         int coordmapY;
         int centradoImagenX;
@@ -29,15 +30,16 @@ namespace Scroll_fondo
         int LimitePantY1 = 0;
         int LimitePantX2 = 4003;
         int LimitePantY2 = 4130;
+     //   Bitmap comida1 = (Bitmap)Image.FromFile("centrobot.png");
         Pen p;
-        System.Timers.Timer t1;
+        System.Timers.Timer t1 = new System.Timers.Timer();
         /*Inicio de Constructor ************/
         public Form1()
         {
-            InitializeComponent();
-            centradoImagenX = 350;
+            InitializeComponent();         
+            centradoImagenX = 350; //Variables Para centrar la pantalla
             centradoImagenY = 150;
-            player1 = new Player();
+            player1 = new Player(); //Nuevo Jugador
             bordeX1 = player1.getCoordInicalMapX() - centradoImagenX;
             bordeY1 = player1.getCoordInicalMapY() - centradoImagenY;
             bordeX2 = bordeX1 + this.ClientSize.Width;
@@ -45,12 +47,17 @@ namespace Scroll_fondo
             coordmapX = -player1.getCoordInicalMapX() + centradoImagenX;
             coordmapY = -player1.getCoordInicalMapY() + centradoImagenY;
             p = new Pen(Color.Green);
-            //t1.Interval = 200;
-          //  t1.Elapsed += player1.revisaRecogidaAldeanos;
-           // t1.Start();
             p.Width = 10;
+            /*Variable Timer*****/
+            t1.Interval = 200;
+            t1.Elapsed += RevisaRecogidaPlayer;
+            t1.Start();
+            /*******Fin de Constructor**************/
         }
-
+        public void RevisaRecogidaPlayer(object obj, ElapsedEventArgs arg)
+        {
+            player1.revisaRecogidaAldeanos();
+        }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(b, coordmapX,coordmapY);//tierrita           
@@ -65,9 +72,9 @@ namespace Scroll_fondo
                         e.Graphics.DrawLine(p, a.getMapX() + coordmapX, a.getMapY() + coordmapY, a.getMapX() + coordmapX + a.getPercentLifeDraw(), a.getMapY() + coordmapY);
                     }
                 }                
-            }
-            //e.Graphics.DrawImage(CU, 400, 10);
+            }            
             e.Graphics.DrawImage(barra, 0, 420);
+            //e.Graphics.DrawImage(comida1, 200, 450);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
