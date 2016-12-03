@@ -34,3 +34,8 @@ C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.csp
 C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll_fondo.Form1.resources
 C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll_fondo.Properties.Resources.resources
 C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.csproj.GenerateResource.Cache
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Interop.WMPLib.dll
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\obj\Debug\Scroll fondo.csproj.ResolveComReference.cache
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\bin\Debug\Interop.WMPLib.dll
+C:\Users\esau\Documents\GitHub\AgeOfWars\Scroll fondo\bin\Debug\AxInterop.WMPLib.dll
