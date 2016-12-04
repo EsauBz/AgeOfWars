@@ -9,7 +9,7 @@ namespace Scroll_fondo
 {
     class Aldeano
     {
-        public Bitmap img = (Bitmap)Image.FromFile("c1.png");
+        public Bitmap img = (Bitmap)Image.FromFile("aldeanoW (1).png");
         private List<Bitmap> animacion = new List<Bitmap>();
         private List<Bitmap> Construye = new List<Bitmap>();
         //array lis bitmaps
@@ -25,8 +25,8 @@ namespace Scroll_fondo
             painted = false;            
             mapX = x1;
             mapY = y1;
-            ancho = 40;
-            alto = 122; 
+            ancho = img.Size.Width;
+            alto = img.Size.Height + 25;
             selected = false;
             lifeAldeano = 50;
             DrawPercLife = lifeAldeano / 4;

@@ -45,6 +45,27 @@ namespace Scroll_fondo
             botones.Add(bot);
         }
 
+        public void GeneraBotonesGame()
+        {
+            bot = new boton(160, Form1.ActiveForm.ClientSize.Height-105, "aldeanobot.png", 40, 40);
+            botones.Add(bot);
+            bot = new boton(210, Form1.ActiveForm.ClientSize.Height - 105, "soldadobot.png", 40, 40);
+            bot.setVisible(false);
+            botones.Add(bot);
+            bot = new boton(260, Form1.ActiveForm.ClientSize.Height - 105, "soldespbot.png", 40, 40);
+            botones.Add(bot);
+            bot.setVisible(false);
+            bot = new boton(310, Form1.ActiveForm.ClientSize.Height - 105, "navebot.png", 40, 40);
+            botones.Add(bot);
+            bot.setVisible(false);
+            bot = new boton(160, Form1.ActiveForm.ClientSize.Height - 55, "centrobot.png", 40, 40);
+            botones.Add(bot);
+            bot = new boton(210, Form1.ActiveForm.ClientSize.Height - 55, "cuartelbot.png", 40, 40);
+            botones.Add(bot);
+            bot = new boton(260, Form1.ActiveForm.ClientSize.Height - 55, "granjabot3.png", 40, 40);
+            botones.Add(bot);
+        }
+
         public Bitmap getImgfondo()
         {
             return fondo;

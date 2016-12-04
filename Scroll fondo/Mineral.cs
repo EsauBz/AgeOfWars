@@ -18,13 +18,45 @@ namespace Scroll_fondo
         private bool painted;
         private int recurso;
         private int DrawPercRec;
-        public Mineral()
+        public Mineral(int x, int y)
         {
             recurso = 100;
+            mapX = x;
+            mapY = y;
+            ancho = img.Size.Width;
+            alto = img.Size.Height;
+        }
+        public int getRecurso()
+        {
+            return recurso;
+        }
+        public void SetPaintedSprite(bool b)
+        {
+            painted = b;
         }
         public void disminuyeRecurso(int quita)
         {
             recurso -= quita;
+        }
+
+        public int getMapX()
+        {
+            return mapX;
+        }
+
+        public int getMapY()
+        {
+            return mapY;
+        }
+
+        public int getAncho()
+        {
+            return ancho;
+        }
+
+        public int getAlto()
+        {
+            return alto;
         }
     }
 }

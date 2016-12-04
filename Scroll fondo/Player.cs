@@ -22,34 +22,89 @@ namespace Scroll_fondo
         private List<Edificio> Cuarteles;
         // lista de soldados
         //lista de edificios
-        public int material;
-        public int food;
+        private int material;
+        private int food;
         Aldeano al;
 
-        public Player()
+        public Player(bool bnd)
         {
+            bando = bnd;
+            CUs = new List<Edificio>();
+            Uespecial = new List<UnidadMilitar>();
+            Naves = new List<UnidadMilitar>();
+            milicia = new List<UnidadMilitar>();
             aldeanos = new List<Aldeano>();
-            CoordInicialMapX = r.Next(0,3001); //random para aparecer al azar
-            CoordInicialMapY = r.Next(0, 3001);// random para aparecer al azar
+            Farms = new List<Edificio>();
+            CoordInicialMapX = r.Next(100,2901); //random para aparecer al azar
+            CoordInicialMapY = r.Next(100, 2901);// random para aparecer al azar
             for(int i = 0; i < 3; i++)
             {
-                al = new Aldeano(CoordInicialMapX + r.Next(50), CoordInicialMapY + r.Next(50)); //coordenadas de inicio
+                al = new Aldeano(CoordInicialMapX + r.Next(50,71), CoordInicialMapY); //coordenadas de inicio
                 aldeanos.Add(al);
             }
-            //ageregar un soldado
-            // agregar un edicio centro urbano
+            Edificio cu;
+            if (bando == true) {  cu = new Edificio(CoordInicialMapX, CoordInicialMapY, "CUJ"); }
+            else
+            {
+                 cu = new Edificio(CoordInicialMapX, CoordInicialMapY, "CUS");
+            }
+            CUs.Add(cu);
+            UnidadMilitar umil ;
+            if (bando == true) { umil = new UnidadMilitar(CoordInicialMapX + r.Next(5), CoordInicialMapY + r.Next(5), "str1"); }
+            else
+            {
+                umil = new UnidadMilitar(CoordInicialMapX + r.Next(5), CoordInicialMapY + r.Next(5), "robo1");
+            }
+            milicia.Add(umil);         
             food = 200;
             material = 150;
+        }
+
+        public int getMineral()
+        {
+            return material;
+        }
+
+        public int getComida()
+        {
+            return food;
         }
 
         public void AddAldeano(Aldeano al)
         {
             aldeanos.Add(al);                 
         }
+
+        public List<UnidadMilitar> getListNaves()
+        {
+            return Naves;
+        }
+
+        public List<UnidadMilitar> getListUespecial()
+        {
+            return Uespecial;
+        }
+
         public List<Aldeano> getListAldeanos()
         {
             return aldeanos;
         }
+
+        public List<UnidadMilitar> getlistMilicia()
+        {
+            return milicia;
+        }
+
+        public List<Edificio> getlistCUs()
+        {
+            return CUs;
+        }
+
+        public List<Edificio> getListFarms()
+        {
+            return Farms;
+        }
+
         public int getCoordInicalMapX()
         {
             return CoordInicialMapX;
@@ -58,15 +113,14 @@ namespace Scroll_fondo
         {
             return CoordInicialMapY;
         }
-        public void revisaRecogidaAldeanos()
+        public void setMineral(int addRecurso)
         {
-            foreach (Aldeano a in aldeanos)// Revisar Recogida Aldeanos
-            {
-               /* if (a.getMapX() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() >= bordeY1 && a.getMapY() <= bordeY2)
-                {
-                    
-                }*/
-            }
+            material += addRecurso;
+        }
+
+        public void setComida(int addRecurso)
+        {
+            food += addRecurso;
         }
     }
 }

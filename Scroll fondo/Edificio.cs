@@ -27,21 +27,23 @@ namespace Scroll_fondo
             painted = false;
             mapX = x1;
             mapY = y1;
+            ancho = img.Size.Width;
+            alto = img.Size.Height;
             selected = false;
             lifeEdificio = 150;
             DrawPercLife = lifeEdificio / 3;
         }
         private void EligeAtributosEdificio()
         {
-            if (EdificioName == "CUJ") { lifeEdificio = 300; ancho = 597; alto = 368; }
+            if (EdificioName == "CUJ") { lifeEdificio = 300; }
             else
             {
-                if (EdificioName == "Farm") { lifeEdificio = 150; ancho = 399; alto = 282; }
+                if (EdificioName == "Farm") { lifeEdificio = 150; }
                     {
-                    if (EdificioName == "cuartel") { lifeEdificio = 200; ancho = 532; alto = 368; }
+                    if (EdificioName == "cuartel") { lifeEdificio = 200; }
                     else
                     {
-                        if (EdificioName == "CUS") { lifeEdificio = 300; ancho = 597; alto = 368; }
+                        if (EdificioName == "CUS") { lifeEdificio = 300; }
                     }
                 }
             }

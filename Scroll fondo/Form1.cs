@@ -15,6 +15,8 @@ namespace Scroll_fondo
     public partial class Form1 : Form
     {
         /*Inicio  de Variables del Programa* ********/
+        Font fnt;
+        Brush bsh;
         Menu menu;
         char opc;
         Mundo World;
@@ -28,29 +30,34 @@ namespace Scroll_fondo
         int LimitePantX2 = 4003;
         int LimitePantY2 = 4123;
         Pen p;
-        System.Timers.Timer t1 = new System.Timers.Timer();
+        System.Timers.Timer Trecurso = new System.Timers.Timer();
         /*Inicio de Constructor ************/
         public Form1()
         {
             InitializeComponent();
+            fnt = new Font(this.Font, FontStyle.Italic);
+            bsh = new SolidBrush(Color.Black);
             Start();
-            /*Variable Timer*****
-            t1.Interval = 200;
-            t1.Elapsed += RevisaRecogidaPlayer;
-            t1.Start();
             /*******Fin de Constructor**************/
         }
 
-        public void startJuego(char a)///se ejecuta despues de elegir bando
+        public void startJuego(bool a)///se ejecuta despues de elegir bando
         {
             Random r = new Random();
-            World = new Mundo(r.Next(0, 2));
+            World = new Mundo(r.Next(0, 2),a);
+            menu = new Menu("bando5.jpg");
+            menu.getBotones().Clear();
+            menu.GeneraBotonesGame();
             bordeX1 = World.getPlayer().getCoordInicalMapX() - 350;
             bordeY1 = World.getPlayer().getCoordInicalMapY() - 150;
             bordeX2 = bordeX1 + this.ClientSize.Width;
             bordeY2 = bordeY1 + this.ClientSize.Height;
             p = new Pen(Color.Green);
             p.Width = 10;
+            /*Variable Timer*/
+            Trecurso.Interval = 1000;
+            Trecurso.Elapsed += RevisaRecogidaPlayer;
+            Trecurso.Start();
         }
 
         public void Start()
@@ -68,7 +75,8 @@ namespace Scroll_fondo
 
         public void RevisaRecogidaPlayer(object obj, ElapsedEventArgs arg)
         {
-            World.getPlayer().revisaRecogidaAldeanos();
+            World.revisaRecogidaAldeanos();
+            Invalidate();
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -78,20 +86,14 @@ namespace Scroll_fondo
             {
                 case '4':
                     //Jugar
-                    grap.DrawImage(World.getImgMundo(), World.getcoordmapX(), World.getcoordmapY());//escenario           
-                    foreach (Aldeano a in World.getPlayer().getListAldeanos())// metodo de acceso
-                    {
-                        if (a.getMapX() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() >= bordeY1 && a.getMapY() <= bordeY2)
-                        {
-                            a.SetPaintedSprite(true);
-                            grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
-                            if (a.GetSpriteSelected() == true)
-                            {
-                                grap.DrawLine(p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
-                            }
-                        }
-                    }
+                    grap.DrawImage(World.getImgMundo(), World.getcoordmapX(), World.getcoordmapY());//escenario  
+                    printRec();
+                    printCUs(World.getPlayer());                   
+                    printAldeanos(World.getPlayer());
+                    printMilicia(World.getPlayer());             
                     grap.DrawImage(World.getImgBarra(), 0, this.ClientSize.Height - World.getImgBarra().Size.Height); //416
+                    PintaBotones();
+                    PrintStatus();
                     break;               
                 case '2':
                     grap.DrawImage(menu.getImgfondo(), 0, 0);
@@ -109,13 +111,80 @@ namespace Scroll_fondo
 
         }
 
+        private void printCUs(Player p)
+        {
+            foreach (Edificio ed in p.getlistCUs())// metodo de acceso
+            {
+                if (ed.getMapX() + ed.getAncho() >= bordeX1 && ed.getMapX() <= bordeX2 && ed.getMapY() + ed.getAlto() >= bordeY1 && ed.getMapY() <= bordeY2)
+                {
+                    ed.SetPaintedSprite(true);
+                    grap.DrawImage(ed.img, ed.getMapX() + World.getcoordmapX(), ed.getMapY() + World.getcoordmapY());
+                }
+            }
+        }
+
+        private void printRec()
+        {
+            foreach (Mineral ed in World.getRecursoMinMundo())// metodo de acceso
+            {
+                if (ed.getMapX() + ed.getAncho() >= bordeX1 && ed.getMapX() <= bordeX2 && ed.getMapY() + ed.getAlto() >= bordeY1 && ed.getMapY() <= bordeY2)
+                {
+                    ed.SetPaintedSprite(true);
+                    grap.DrawImage(ed.img, ed.getMapX() + World.getcoordmapX(), ed.getMapY() + World.getcoordmapY());
+                }
+            }
+            foreach (Comida ed in World.getRecursoComMundo())// metodo de acceso
+            {
+                if (ed.getMapX() + ed.getAncho() >= bordeX1 && ed.getMapX() <= bordeX2 && ed.getMapY() + ed.getAlto() >= bordeY1 && ed.getMapY() <= bordeY2)
+                {
+                    ed.SetPaintedSprite(true);
+                    grap.DrawImage(ed.img, ed.getMapX() + World.getcoordmapX(), ed.getMapY() + World.getcoordmapY());
+                }
+            }
+        }
+
+        private void printAldeanos(Player p)
+        {
+            foreach (Aldeano a in p.getListAldeanos())// metodo de acceso
+            {
+                if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
+                {
+                    a.SetPaintedSprite(true);
+                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    if (a.GetSpriteSelected() == true)
+                    {
+                        grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
+                    }
+                }
+            }
+        }
+
+        private void printMilicia(Player p)
+        {
+            foreach (UnidadMilitar a in p.getlistMilicia())// metodo de acceso
+            {
+                if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
+                {
+                    a.SetPaintedSprite(true);
+                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    if (a.GetSpriteSelected() == true)
+                    {
+                        grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
+                    }
+                }
+            }
+        }
+
         private void PintaBotones() /****Este metodo solo se llama en los dos menus que tienen botones  *****/
         {
             Bitmap imagen;
             foreach (boton b in menu.getBotones())
             {
-                imagen = (Bitmap)Image.FromFile(b.getImg());
-                grap.DrawImage(imagen, b.getX(), b.getY());
+                if (b.getVisible() == true)
+                {
+                    imagen = (Bitmap)Image.FromFile(b.getImg());
+                    grap.DrawImage(imagen, b.getX(), b.getY());
+                }
             }
         }
 
@@ -164,7 +233,6 @@ namespace Scroll_fondo
         {
             int x = e.X;
             int y = e.Y;
-            Random r = new Random();
             if (int.Parse(opc.ToString()) < 4)
             {
                 switch (opc)
@@ -182,44 +250,95 @@ namespace Scroll_fondo
             }
             else
             {
-                /*********************/               
-                int cont = 0;                
+                /*********************/                                    
                 if (e.Button == MouseButtons.Left)
                 {
-                    foreach (Aldeano a in World.getPlayer().getListAldeanos())
-                    {
-                        if (x >= a.getMapX() + World.getcoordmapX() && x <= a.getMapX() + World.getcoordmapX() + a.getAncho() && y >= a.getMapY() + World.getcoordmapY() && y <= a.getMapY() + World.getcoordmapY() + a.getAlto())
-                        {
-                            if (a.GetSpriteSelected() == true)
-                                a.SetSpriteSelected(false);
-                            else
-                            {
-                                a.SetSpriteSelected(true);
-                                cont++;
-                            }
-                        }
-                    }
-                    if (cont == 0)
-                    {
-                        foreach (Aldeano a in World.getPlayer().getListAldeanos())
-                        {
-                            a.SetSpriteSelected(false);
-                        }
-                    }
+                    checkLeftAldeanos(x, y);
+                    checkLeftMilicia(x, y);
                 }
                 if (e.Button == MouseButtons.Right)
                 {
-                    foreach (Aldeano a in World.getPlayer().getListAldeanos())
-                    {
-                        if (a.GetSpriteSelected() == true && y <= 420)
-                        {
-                            // mover coordenadas de personaje con animacion
-                            a.SetMapX(x + r.Next(51) - World.getcoordmapX()); //sumar random
-                            a.SetMapY(y - World.getcoordmapY());  //sumar random                        
-                        }
-                    }
+                    checkRightAldeanos(x, y);
+                    checkRightMilicia(x,y);
                 }
                 Invalidate();
+            }
+        }
+
+        private void checkLeftAldeanos(int x, int y)
+        {
+            int cont = 0;
+            foreach (Aldeano a in World.getPlayer().getListAldeanos())
+            {
+                if (x >= a.getMapX() + World.getcoordmapX() && x <= a.getMapX() + World.getcoordmapX() + a.getAncho() && y >= a.getMapY() + World.getcoordmapY() && y <= a.getMapY() + World.getcoordmapY() + a.getAlto())
+                {
+                    if (a.GetSpriteSelected() == true)
+                        a.SetSpriteSelected(false);
+                    else
+                    {
+                        a.SetSpriteSelected(true);
+                        cont++;
+                    }
+                }
+            }
+            if (cont == 0)
+            {
+                foreach (Aldeano a in World.getPlayer().getListAldeanos())
+                {
+                    a.SetSpriteSelected(false);
+                }
+            }
+        }
+        private void checkRightAldeanos(int x, int y)
+        {
+            Random rand = new Random();
+            foreach (Aldeano a in World.getPlayer().getListAldeanos())
+            {
+                if (a.GetSpriteSelected() == true && y <= this.ClientSize.Height - World.getImgBarra().Size.Height)
+                {
+                    // mover coordenadas de personaje con animacion
+                    a.SetMapX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
+                    a.SetMapY(y - World.getcoordmapY());  //sumar random                        
+                }
+            }
+        }
+
+        private void checkLeftMilicia(int x, int y)
+        {
+            int cont = 0;
+            foreach (UnidadMilitar a in World.getPlayer().getlistMilicia())
+            {
+                if (x >= a.getMapX() + World.getcoordmapX() && x <= a.getMapX() + World.getcoordmapX() + a.getAncho() && y >= a.getMapY() + World.getcoordmapY() && y <= a.getMapY() + World.getcoordmapY() + a.getAlto())
+                {
+                    if (a.GetSpriteSelected() == true)
+                        a.SetSpriteSelected(false);
+                    else
+                    {
+                        a.SetSpriteSelected(true);
+                        cont++;
+                    }
+                }
+            }
+            if (cont == 0)
+            {
+                foreach (UnidadMilitar a in World.getPlayer().getlistMilicia())
+                {
+                    a.SetSpriteSelected(false);
+                }
+            }
+        }
+
+        private void checkRightMilicia(int x, int y)
+        {
+            Random rand = new Random();
+            foreach (UnidadMilitar a in World.getPlayer().getlistMilicia())
+            {
+                if (a.GetSpriteSelected() == true && y <= this.ClientSize.Height - World.getImgBarra().Size.Height)
+                {
+                    // mover coordenadas de personaje con animacion
+                    a.SetMapX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
+                    a.SetMapY(y - World.getcoordmapY());  //sumar random                        
+                }
             }
         }
 
@@ -287,12 +406,12 @@ namespace Scroll_fondo
 
         private void PartidaNuevaMenu(int x, int y) /*** Este Metodo decide si se presiono un boton del menu de equipo*******/
         {
-            char a;
+            bool a;
             if (x > menu.getBotones()[0].getX() && x < menu.getBotones()[0].getX() + menu.getBotones()[0].getAncho() && y > menu.getBotones()[0].getY() && y < menu.getBotones()[0].getY() + menu.getBotones()[0].getAlto())
             {
                 //ELEGIR JEDI
                 opc = '4';
-                a = 'a';
+                a = true;
                 startJuego(a);
             }
             else
@@ -301,7 +420,7 @@ namespace Scroll_fondo
                 {
                     //ELEGIR SITH
                     opc = '4';
-                    a = 'r';
+                    a = false;
                     startJuego(a);
                 }
                 else
@@ -317,6 +436,14 @@ namespace Scroll_fondo
         private void AyudaMenu(int x, int y)
         {
 
+        }
+        private void PrintStatus()
+        {
+            int UM = World.getPlayer().getlistMilicia().Count + World.getPlayer().getListNaves().Count + World.getPlayer().getListUespecial().Count;
+            grap.DrawString("Aldeanos: " + World.getPlayer().getListAldeanos().Count, fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 105);
+            grap.DrawString("Unidades Militares: " + UM, fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 90);
+            grap.DrawString("Mineral: " + World.getPlayer().getMineral(), fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 75);
+            grap.DrawString("Comida: " + World.getPlayer().getComida(), fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 60);
         }
     }
 }

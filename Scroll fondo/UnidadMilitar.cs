@@ -32,8 +32,8 @@ namespace Scroll_fondo
             EscogeAtaqueUnidadMilitar();
             mapX = x1;
             mapY = y1;
-            ancho = 29;
-            alto = 51;
+            ancho = img.Size.Width;
+            alto = img.Size.Height +25;
             selected = false;
             DrawPercLife = lifeSoldado / 3;
         }
@@ -45,10 +45,10 @@ namespace Scroll_fondo
                 if (NameUnidad == "Sith") { ataque = 10; lifeSoldado = 175; costoComida = 20; costoMineral = 20;  /*ancho alto*/ }
                 else
                 {
-                    if (NameUnidad == "storm" || NameUnidad == "robot") { ataque = 5; lifeSoldado = 100; costoComida = 10; costoMineral = 10;/*ancho alto*/ }
+                    if (NameUnidad == "str1" || NameUnidad == "robo1") { ataque = 5; lifeSoldado = 100; costoComida = 10; costoMineral = 10;/*ancho alto*/ }
                     else
                     {
-                        if (NameUnidad == "NaveJedi" || NameUnidad == "NaveSith") { ataque = 25; lifeSoldado = 80; ancho = 172; alto = 221; costoComida = 30; costoMineral = 30; }
+                        if (NameUnidad == "NaveJedi" || NameUnidad == "NaveSith") { ataque = 25; lifeSoldado = 80; costoComida = 30; costoMineral = 30; }
                     }
                 }
             }
