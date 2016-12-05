@@ -36,8 +36,8 @@ namespace Scroll_fondo
             aldeanos = new List<Aldeano>();
             Farms = new List<Edificio>();
             Cuarteles = new List<Edificio>();
-            CoordInicialMapX = r.Next(100,2901); //random para aparecer al azar
-            CoordInicialMapY = r.Next(100, 2901);// random para aparecer al azar
+            CoordInicialMapX = r.Next(150,2901); //random para aparecer al azar
+            CoordInicialMapY = r.Next(150, 2901);// random para aparecer al azar
             for(int i = 0; i < 3; i++)
             {
                 al = new Aldeano(CoordInicialMapX + r.Next(50,71), CoordInicialMapY); //coordenadas de inicio

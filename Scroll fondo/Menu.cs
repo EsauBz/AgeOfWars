@@ -64,6 +64,8 @@ namespace Scroll_fondo
             botones.Add(bot);
             bot = new boton(260, Form1.ActiveForm.ClientSize.Height - 55, "granjabot3.png", 40, 40);
             botones.Add(bot);
+            bot = new boton(600, Form1.ActiveForm.ClientSize.Height - 105, "menubot.png", 40, 40);
+            botones.Add(bot);
         }
 
         public Bitmap getImgfondo()

@@ -37,13 +37,20 @@ namespace Scroll_fondo
         System.Timers.Timer TCuD = new System.Timers.Timer();
         System.Timers.Timer TFrames = new System.Timers.Timer();
         System.Timers.Timer TUMFrames = new System.Timers.Timer();
+        System.Timers.Timer TVerificaAtaque = new System.Timers.Timer();
+        System.Timers.Timer TEdificioEnem = new System.Timers.Timer();
+        System.Timers.Timer TMovimientoEnem = new System.Timers.Timer();
+        System.Timers.Timer TFramesEnem = new System.Timers.Timer();
         /*Inicio de Constructor ************/
         public Form1()
         {
             InitializeComponent();
             fnt = new Font(this.Font, FontStyle.Italic);
             bsh = new SolidBrush(Color.Black);
+            p = new Pen(Color.Green);
+            p.Width = 10;
             Start();
+            InicializaTimers();
             /*******Fin de Constructor**************/
         }
 
@@ -58,35 +65,60 @@ namespace Scroll_fondo
             bordeY1 = World.getPlayer().getCoordInicalMapY() - 150;
             bordeX2 = bordeX1 + this.ClientSize.Width;
             bordeY2 = bordeY1 + this.ClientSize.Height;
-            p = new Pen(Color.Green);
-            p.Width = 10;
+            /****************************/
+            Trecurso.Start();
+            /****************************/
+            Tcomida.Start();
+            /****************************/
+            Tcuarteles.Start();
+            /****************************/
+            TCuD.Start();
+            /****************************/
+            TFrames.Start();
+            /****************************/
+            TUMFrames.Start();
+            /****************************/
+            TVerificaAtaque.Start();
+            /****************************/
+            TEdificioEnem.Start();
+            /****************************/
+            TMovimientoEnem.Start();
+            /*****************************/
+            TFramesEnem.Start(); 
+        }
+        private void InicializaTimers()
+        {
             /*Variables Timers Game*/
             Trecurso.Interval = 1000;
             Trecurso.Elapsed += RevisaRecogidaPlayer;
-            Trecurso.Start();
             /**********************/
             Tcomida.Interval = 1000;
             Tcomida.Elapsed += RevisaComidaPlayer;
-            Tcomida.Start();
             /****************************/
             Tcuarteles.Interval = 1000;
             Tcuarteles.Elapsed += RevisaCuartelesPlayer;
-            Tcuarteles.Start();
             /****************************/
             TCuD.Interval = 1000;
             TCuD.Elapsed += RevisaCUDestruidos;
-            TCuD.Start();
             /****************************/
             TFrames.Interval = 15;
             TFrames.Elapsed += UpdateAnimaFrames;
-            TFrames.Start();
             /****************************/
             TUMFrames.Interval = 15;
             TUMFrames.Elapsed += UpdateAnimaMil;
-            TUMFrames.Start();
             /****************************/
+            TVerificaAtaque.Interval = 15;
+            TVerificaAtaque.Elapsed += RevisaColisionAtaque;
+            /****************************/
+            TEdificioEnem.Interval = 30000;
+            TEdificioEnem.Elapsed += GeneraEdificioEnem;
+            /****************************/
+            TMovimientoEnem.Interval = 15000;
+            TMovimientoEnem.Elapsed += GenerMovEnem;
+            /****************************/
+            TFramesEnem.Interval = 15;
+            TFramesEnem.Elapsed += MueveEnem;
         }
-
         public void Start()
         {
             this.Cursor = Cursors.Default; // Mientras este video, sea cursor normal.
@@ -100,11 +132,115 @@ namespace Scroll_fondo
             /******************************************************************/
         }
 
+        public void GeneraEdificioEnem(object obj, ElapsedEventArgs args)
+        {
+            Edificio ed;
+            Random r = new Random();
+            switch(r.Next(0,3))
+            {
+                case 0:
+                    ed = new Edificio(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "Farm");
+                    World.getPlayer2().getListFarms().Add(ed);
+                    break;
+                case 1:
+                    ed = new Edificio(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "Cuartel");
+                    World.getPlayer2().getListCuarteles().Add(ed);
+                    break;
+            }
+            UnidadMilitar um;
+            Aldeano al;
+            switch (r.Next(0, 4))
+            {
+                case 0:
+                    al = new Aldeano(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900));
+                    World.getPlayer2().getListAldeanos().Add(al);
+                    break;
+                case 1:
+                    if(World.getPlayer().getBando() == true)
+                    {
+                        um = new UnidadMilitar(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "robo1");
+                    }else
+                    {
+                        um = new UnidadMilitar(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "str1");
+                    }
+                    World.getPlayer2().getlistMilicia().Add(um);
+                    break;
+                case 2:
+                    if (World.getPlayer().getBando() == true)
+                    {
+                        um = new UnidadMilitar(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "sithW (3)");
+                    }
+                    else
+                    {
+                        um = new UnidadMilitar(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "jediW (3)");
+                    }
+                    World.getPlayer2().getListUespecial().Add(um);
+                    break;
+                case 3:
+                    if (World.getPlayer().getBando() == true)
+                    {
+                        um = new UnidadMilitar(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "navesith (1)");
+                    }
+                    else
+                    {
+                        um = new UnidadMilitar(World.getPlayer2().getCoordInicalMapX() + r.Next(200, 2900), World.getPlayer2().getCoordInicalMapY() + r.Next(200, 2900), "navejedi (1)");
+                    }
+                    World.getPlayer2().getListNaves().Add(um);
+                    break;
+            }
+            Invalidate();
+        }
+
+        public void GenerMovEnem(object obj, ElapsedEventArgs args)
+        {
+            foreach(Aldeano a in World.getPlayer2().getListAldeanos())
+            {
+                a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
+                a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
+                a.setIsMoving(true);
+                a.Camina();
+            }
+            foreach (UnidadMilitar a in World.getPlayer2().getlistMilicia())
+            {
+                a.setProvX(World.getPlayer().getCoordInicalMapX() + rnd.Next(200, 1000));
+                a.setProvY(World.getPlayer().getCoordInicalMapY() + rnd.Next(200, 1000));
+                a.setIsMoving(true);
+                a.Camina();
+            }
+            foreach (UnidadMilitar a in World.getPlayer2().getListUespecial())
+            {
+                a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
+                a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
+                a.setIsMoving(true);
+                a.Camina();
+            }
+            foreach (UnidadMilitar a in World.getPlayer2().getListNaves())
+            {
+                a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
+                a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
+                a.setIsMoving(true);
+                a.Camina();
+            }
+        }
+
         public void RevisaRecogidaPlayer(object obj, ElapsedEventArgs arg)
         {
             try
             {
                 World.revisaRecogidaAldeanos();
+            }
+            catch
+            {
+
+            }
+            Invalidate();
+        }
+
+        public void RevisaColisionAtaque(object obj, ElapsedEventArgs arg)
+        {
+            try
+            {
+                World.RevisaAtacarEnemigo();
             }
             catch
             {
@@ -168,12 +304,19 @@ namespace Scroll_fondo
                         grap.DrawImage(World.getImgMundo(), World.getcoordmapX(), World.getcoordmapY());//escenario  
                         printRec();
                         printCUs(World.getPlayer());
+                        printCUs(World.getPlayer2()); //P2
                         printCuarteles(World.getPlayer());
+                        printCuarteles(World.getPlayer2());//P2
                         printFarms(World.getPlayer());
+                        printFarms(World.getPlayer2());//P2
                         printAldeanos(World.getPlayer());
+                        printAldeanos(World.getPlayer2());//P2
                         printUespecial(World.getPlayer());
+                        printUespecial(World.getPlayer2());//P2
                         printNaves(World.getPlayer());
+                        printNaves(World.getPlayer2());//P2
                         printMilicia(World.getPlayer());
+                        printMilicia(World.getPlayer2());//P2
                         grap.DrawImage(World.getImgBarra(), 0, this.ClientSize.Height - World.getImgBarra().Size.Height); //416
                         PintaBotones();
                         PrintStatus();
@@ -540,6 +683,74 @@ namespace Scroll_fondo
             Invalidate();
         }
 
+        private void MueveEnem(object obj, ElapsedEventArgs arg)
+        {
+            foreach (Aldeano a in World.getPlayer2().getListAldeanos())
+            {
+                if (a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if (a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); } else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if (a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
+            foreach (UnidadMilitar a in World.getPlayer2().getlistMilicia())
+            {
+                if (a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if (a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); } else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if (a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
+            foreach (UnidadMilitar a in World.getPlayer2().getListUespecial())
+            {
+                if (a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if (a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); } else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if (a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
+            foreach (UnidadMilitar a in World.getPlayer2().getListNaves())
+            {
+                if (a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if (a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); } else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if (a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
+        }
+
         private void checkLeftAldeanos(int x, int y)
         {
             int cont = 0;
@@ -833,8 +1044,8 @@ namespace Scroll_fondo
                         UnidadMilitar aux;
                         if (World.getPlayer().getComida() - 50 >= 0 && World.getPlayer().getMineral() - 50 >= 0 && World.getPlayer().getListCuarteles().Count > 0)
                         {
-                            if (World.getPlayer().getBando() == true) { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "jediW (1)"); }
-                            else { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "sithW (1)"); }
+                            if (World.getPlayer().getBando() == true) { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "jediW (3)"); }
+                            else { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "sithW (3)"); }
                             World.getPlayer().getListUespecial().Add(aux);
                             World.getPlayer().restaComida(50);
                             World.getPlayer().restaMineral(50);
@@ -906,6 +1117,21 @@ namespace Scroll_fondo
                                                 World.getPlayer().restaMineral(100);
                                                 World.getPlayer().restaComida(100);
                                             }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(x > menu.getBotones()[7].getX() && x < menu.getBotones()[7].getX() + menu.getBotones()[7].getAncho() && y > menu.getBotones()[7].getY() && y < menu.getBotones()[7].getY() + menu.getBotones()[7].getAlto())
+                                        {
+                                            //Salir Juego
+                                            Trecurso.Stop();
+                                            Tcomida.Stop();
+                                            Tcuarteles.Stop();
+                                            TCuD.Stop();
+                                            TFrames.Stop();
+                                            TUMFrames.Stop();
+                                            TVerificaAtaque.Stop();
+                                            menuStart();
                                         }
                                     }
                                 }

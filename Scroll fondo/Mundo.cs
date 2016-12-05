@@ -14,11 +14,13 @@ namespace Scroll_fondo
         private List<Comida> RecursoComida;
         private Bitmap escenario;
         private Player player1;
+        private Player Player2;
         Bitmap barra = (Bitmap)Image.FromFile("barr1.png");
         int coordmapX;
         int coordmapY;
         public Mundo(int i,bool band)
         {
+            if (band) { Player2 = new Player(false); } else { Player2 = new Player(true); }
             player1 = new Player(band);
             RecursoMineral = new List<Mineral>();
             RecursoComida = new List<Comida>();
@@ -40,10 +42,13 @@ namespace Scroll_fondo
                 RecursoComida.Add(Com);
             }
             coordmapX = -player1.getCoordInicalMapX() + 350;
-            coordmapY = -player1.getCoordInicalMapY() + 150;
-            startAñadeComida();
-            startAñadeMinerales();
+            coordmapY = -player1.getCoordInicalMapY() + 150;           
         }//Fin de constructor
+
+        public Player getPlayer2()
+        {
+            return Player2;
+        }
 
         public void pluscoordmapX()
         {
@@ -94,15 +99,7 @@ namespace Scroll_fondo
         {
             return player1;
         }
-
-        private void startAñadeMinerales()
-        {
-
-        }
-        private void startAñadeComida()
-        {
-
-        }
+       
         public Bitmap getImgMundo()
         {
             return escenario;
@@ -199,5 +196,11 @@ namespace Scroll_fondo
                 }
             }
         }//Fin de metodo
+
+        public void RevisaAtacarEnemigo()
+        {
+            //Revisar las listas de unidades para saber si estan peleando
+            //COMPARACIONES
+        }
     }
 }
