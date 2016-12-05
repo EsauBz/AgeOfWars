@@ -127,17 +127,34 @@ namespace Scroll_fondo
                         a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
                         a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
                     {
+                        if (a.getIrecoge() == false && player1.getListFarms().Count > 0) { a.Recoge(); a.setIrecoge(true); }
                         player1.setMineral(player1.getListFarms().Count);
                         b.disminuyeRecurso(player1.getListFarms().Count);
                     }
+                    else
+                    {
+                        a.setIrecoge(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
                 }
+                a.Update();
             }
-            for (int cont = 0; cont < RecursoMineral.Count; cont++)
+            for (int j = 0; j < RecursoMineral.Count; j++)
             {
-                if (RecursoMineral[cont].getRecurso() <= 0)
+                if (RecursoMineral[j].getRecurso() <= 0)
                 {
-                    RecursoMineral.RemoveAt(cont);
-                    cont--;
+                    foreach (Aldeano a in player1.getListAldeanos())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    RecursoMineral.RemoveAt(j);
+                    j--;
                 }
             }
         }
@@ -152,16 +169,32 @@ namespace Scroll_fondo
                         a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
                         a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
                     {
+                        if (a.getIrecoge() == false && player1.getListFarms().Count > 0) { a.Recoge(); a.setIrecoge(true); }
                         player1.setComida(player1.getListFarms().Count);
                         b.disminuyeRecurso(player1.getListFarms().Count);
                     }
+                    else
+                    {
+                        a.setIrecoge(false);
+                    }
                 }
+                a.Update();
             }
             for (int j = 0; j < RecursoComida.Count; j++)
             {
                 if (RecursoComida[j].getRecurso() <= 0)
                 {
-                    RecursoMineral.RemoveAt(j);
+                    foreach (Aldeano a in player1.getListAldeanos())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    RecursoComida.RemoveAt(j);
                     j--;
                 }
             }

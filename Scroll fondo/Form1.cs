@@ -34,6 +34,9 @@ namespace Scroll_fondo
         System.Timers.Timer Trecurso = new System.Timers.Timer();
         System.Timers.Timer Tcomida = new System.Timers.Timer();
         System.Timers.Timer Tcuarteles = new System.Timers.Timer();
+        System.Timers.Timer TCuD = new System.Timers.Timer();
+        System.Timers.Timer TFrames = new System.Timers.Timer();
+        System.Timers.Timer TUMFrames = new System.Timers.Timer();
         /*Inicio de Constructor ************/
         public Form1()
         {
@@ -70,6 +73,18 @@ namespace Scroll_fondo
             Tcuarteles.Elapsed += RevisaCuartelesPlayer;
             Tcuarteles.Start();
             /****************************/
+            TCuD.Interval = 1000;
+            TCuD.Elapsed += RevisaCUDestruidos;
+            TCuD.Start();
+            /****************************/
+            TFrames.Interval = 15;
+            TFrames.Elapsed += UpdateAnimaFrames;
+            TFrames.Start();
+            /****************************/
+            TUMFrames.Interval = 15;
+            TUMFrames.Elapsed += UpdateAnimaMil;
+            TUMFrames.Start();
+            /****************************/
         }
 
         public void Start()
@@ -90,6 +105,19 @@ namespace Scroll_fondo
             try
             {
                 World.revisaRecogidaAldeanos();
+            }
+            catch
+            {
+
+            }
+            Invalidate();
+        }
+
+        public void RevisaCUDestruidos(object obj, ElapsedEventArgs arg)
+        {
+            try
+            {
+                if(World.getPlayer().getlistCUs().Count < 1) { }
             }
             catch
             {
@@ -135,18 +163,22 @@ namespace Scroll_fondo
             {
                 case '4':
                     //Jugar
-                    grap.DrawImage(World.getImgMundo(), World.getcoordmapX(), World.getcoordmapY());//escenario  
-                    printRec();
-                    printCUs(World.getPlayer());
-                    printCuarteles(World.getPlayer());
-                    printFarms(World.getPlayer());                   
-                    printAldeanos(World.getPlayer());
-                    printUespecial(World.getPlayer());
-                    printNaves(World.getPlayer());
-                    printMilicia(World.getPlayer());             
-                    grap.DrawImage(World.getImgBarra(), 0, this.ClientSize.Height - World.getImgBarra().Size.Height); //416
-                    PintaBotones();
-                    PrintStatus();
+                    try
+                    {
+                        grap.DrawImage(World.getImgMundo(), World.getcoordmapX(), World.getcoordmapY());//escenario  
+                        printRec();
+                        printCUs(World.getPlayer());
+                        printCuarteles(World.getPlayer());
+                        printFarms(World.getPlayer());
+                        printAldeanos(World.getPlayer());
+                        printUespecial(World.getPlayer());
+                        printNaves(World.getPlayer());
+                        printMilicia(World.getPlayer());
+                        grap.DrawImage(World.getImgBarra(), 0, this.ClientSize.Height - World.getImgBarra().Size.Height); //416
+                        PintaBotones();
+                        PrintStatus();
+                    }
+                    catch { }
                     break;               
                 case '2':
                     grap.DrawImage(menu.getImgfondo(), 0, 0);
@@ -200,7 +232,7 @@ namespace Scroll_fondo
         }
 
         private void printRec()
-        {
+        {            
             foreach (Mineral ed in World.getRecursoMinMundo())// metodo de acceso
             {
                 if (ed.getMapX() + ed.getAncho() >= bordeX1 && ed.getMapX() <= bordeX2 && ed.getMapY() + ed.getAlto() >= bordeY1 && ed.getMapY() <= bordeY2)
@@ -221,12 +253,30 @@ namespace Scroll_fondo
 
         private void printAldeanos(Player p)
         {
+            Bitmap aux;
             foreach (Aldeano a in p.getListAldeanos())// metodo de acceso
             {
                 if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
                 {
                     a.SetPaintedSprite(true);
-                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    aux = a.currentFrameActual();
+                    if(aux != null)
+                    {
+                        if(a.getMapX() > a.getProvX())
+                        {
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                            grap.DrawImage(aux, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                        }
+                        else
+                        {
+                            grap.DrawImage(a.currentFrameActual(), a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                        }
+                    }
+                    /*else
+                    {
+                        grap.DrawImage(a.getEstatico(), a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    }*/
                     if (a.GetSpriteSelected() == true)
                     {
                         grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
@@ -237,12 +287,26 @@ namespace Scroll_fondo
 
         private void printMilicia(Player p)
         {
+            Bitmap aux;
             foreach (UnidadMilitar a in p.getlistMilicia())// metodo de acceso
             {
                 if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
                 {
                     a.SetPaintedSprite(true);
-                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    aux = a.currentFrameActual();
+                    if (aux != null)
+                    {
+                        if (a.getMapX() > a.getProvX())
+                        {
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                            grap.DrawImage(aux, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                        }
+                        else
+                        {
+                            grap.DrawImage(a.currentFrameActual(), a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                        }
+                    }
                     if (a.GetSpriteSelected() == true)
                     {
                         grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
@@ -253,12 +317,26 @@ namespace Scroll_fondo
 
         private void printUespecial(Player p)
         {
+            Bitmap aux;
             foreach (UnidadMilitar a in p.getListUespecial())// metodo de acceso
             {
                 if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
                 {
                     a.SetPaintedSprite(true);
-                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    aux = a.currentFrameActual();
+                    if (aux != null)
+                    {
+                        if (a.getMapX() > a.getProvX())
+                        {
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                            grap.DrawImage(aux, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                        }
+                        else
+                        {
+                            grap.DrawImage(a.currentFrameActual(), a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                        }
+                    }
                     if (a.GetSpriteSelected() == true)
                     {
                         grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
@@ -268,12 +346,26 @@ namespace Scroll_fondo
         }
         private void printNaves(Player p)
         {
+            Bitmap aux;
             foreach (UnidadMilitar a in p.getListNaves())// metodo de acceso
             {
                 if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
                 {
                     a.SetPaintedSprite(true);
-                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    aux = a.currentFrameActual();
+                    if (aux != null)
+                    {
+                        if (a.getMapX() > a.getProvX())
+                        {
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                            grap.DrawImage(aux, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                            aux.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                        }
+                        else
+                        {
+                            grap.DrawImage(a.currentFrameActual(), a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                        }
+                    }
                     if (a.GetSpriteSelected() == true)
                     {
                         grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
@@ -363,14 +455,89 @@ namespace Scroll_fondo
                     checkLeftAldeanos(x, y);
                     checkLeftMilicia(x, y);
                     checkButtons(x, y);
+                    checkLeftUespecial(x, y);
+                    checkLeftNaves(x, y);
                 }
                 if (e.Button == MouseButtons.Right)
                 {
                     checkRightAldeanos(x, y);
                     checkRightMilicia(x,y);
+                    checkRightUespecial(x, y);
+                    checkRightNaves(x, y);
                 }
                 Invalidate();
             }
+        }
+
+        private void UpdateAnimaFrames(object obj, ElapsedEventArgs arg)
+        {
+            foreach(Aldeano a in World.getPlayer().getListAldeanos())
+            { 
+                if(a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if(a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); }else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if(a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
+        }
+        private void UpdateAnimaMil(object obj, ElapsedEventArgs arg)
+        {
+            foreach (UnidadMilitar a in World.getPlayer().getlistMilicia())
+            {
+                if (a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if (a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); } else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if (a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
+            foreach (UnidadMilitar a in World.getPlayer().getListUespecial())
+            {
+                if (a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if (a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); } else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if (a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
+            foreach (UnidadMilitar a in World.getPlayer().getListNaves())
+            {
+                if (a.getIsMoving() == true)
+                {
+                    if (a.getMapX() != a.getProvX()) { if (a.getMapX() > a.getProvX()) { a.SetMapX(a.getMapX() - 1); } else { a.SetMapX(a.getMapX() + 1); } }
+                    if (a.getMapY() != a.getProvY()) { if (a.getMapY() > a.getProvY()) { a.SetMapY(a.getMapY() - 1); } else { a.SetMapY(a.getMapY() + 1); } }
+                    if (a.getMapX() == a.getProvX() && a.getMapY() == a.getProvY())
+                    {
+                        a.setIsMoving(false);
+                        a.SetCamina(false);
+                        a.parado();
+                    }
+                }
+                a.Update();
+            }
+            Invalidate();
         }
 
         private void checkLeftAldeanos(int x, int y)
@@ -405,8 +572,10 @@ namespace Scroll_fondo
                 if (a.GetSpriteSelected() == true && y <= this.ClientSize.Height - World.getImgBarra().Size.Height)
                 {
                     // mover coordenadas de personaje con animacion
-                    a.SetMapX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
-                    a.SetMapY(y - World.getcoordmapY());  //sumar random                        
+                    a.setProvX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
+                    a.setProvY(y - World.getcoordmapY());  //sumar random   
+                    a.setIsMoving(true);
+                    a.Camina();                  
                 }
             }
         }
@@ -436,6 +605,31 @@ namespace Scroll_fondo
             }
         }
 
+        private void checkLeftUespecial(int x, int y)
+        {
+            int cont = 0;
+            foreach (UnidadMilitar a in World.getPlayer().getListUespecial())
+            {
+                if (x >= a.getMapX() + World.getcoordmapX() && x <= a.getMapX() + World.getcoordmapX() + a.getAncho() && y >= a.getMapY() + World.getcoordmapY() && y <= a.getMapY() + World.getcoordmapY() + a.getAlto())
+                {
+                    if (a.GetSpriteSelected() == true)
+                        a.SetSpriteSelected(false);
+                    else
+                    {
+                        a.SetSpriteSelected(true);
+                        cont++;
+                    }
+                }
+            }
+            if (cont == 0)
+            {
+                foreach (UnidadMilitar a in World.getPlayer().getListUespecial())
+                {
+                    a.SetSpriteSelected(false);
+                }
+            }
+        }
+
         private void checkRightMilicia(int x, int y)
         {
             Random rand = new Random();
@@ -444,8 +638,67 @@ namespace Scroll_fondo
                 if (a.GetSpriteSelected() == true && y <= this.ClientSize.Height - World.getImgBarra().Size.Height)
                 {
                     // mover coordenadas de personaje con animacion
-                    a.SetMapX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
-                    a.SetMapY(y - World.getcoordmapY());  //sumar random                        
+                    a.setProvX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
+                    a.setProvY(y - World.getcoordmapY());  //sumar random   
+                    a.setIsMoving(true);
+                    a.Camina();                 //sumar random                        
+                }
+            }
+        }
+
+        private void checkLeftNaves(int x, int y)
+        {
+            int cont = 0;
+            foreach (UnidadMilitar a in World.getPlayer().getListNaves())
+            {
+                if (x >= a.getMapX() + World.getcoordmapX() && x <= a.getMapX() + World.getcoordmapX() + a.getAncho() && y >= a.getMapY() + World.getcoordmapY() && y <= a.getMapY() + World.getcoordmapY() + a.getAlto())
+                {
+                    if (a.GetSpriteSelected() == true)
+                        a.SetSpriteSelected(false);
+                    else
+                    {
+                        a.SetSpriteSelected(true);
+                        cont++;
+                    }
+                }
+            }
+            if (cont == 0)
+            {
+                foreach (UnidadMilitar a in World.getPlayer().getListNaves())
+                {
+                    a.SetSpriteSelected(false);
+                }
+            }
+        }
+
+        private void checkRightUespecial(int x, int y)
+        {
+            Random rand = new Random();
+            foreach (UnidadMilitar a in World.getPlayer().getListUespecial())
+            {
+                if (a.GetSpriteSelected() == true && y <= this.ClientSize.Height - World.getImgBarra().Size.Height)
+                {
+                    // mover coordenadas de personaje con animacion
+                    a.setProvX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
+                    a.setProvY(y - World.getcoordmapY());  //sumar random   
+                    a.setIsMoving(true);
+                    a.Camina();                  //sumar random                        
+                }
+            }
+        }
+
+        private void checkRightNaves(int x, int y)
+        {
+            Random rand = new Random();
+            foreach (UnidadMilitar a in World.getPlayer().getListNaves())
+            {
+                if (a.GetSpriteSelected() == true && y <= this.ClientSize.Height - World.getImgBarra().Size.Height)
+                {
+                    // mover coordenadas de personaje con animacion
+                    a.setProvX(x + rand.Next(50) - World.getcoordmapX()); //sumar random
+                    a.setProvY(y - World.getcoordmapY());  //sumar random   
+                    a.setIsMoving(true);
+                    a.Camina();
                 }
             }
         }
