@@ -193,34 +193,38 @@ namespace Scroll_fondo
 
         public void GenerMovEnem(object obj, ElapsedEventArgs args)
         {
-            foreach(Aldeano a in World.getPlayer2().getListAldeanos())
+            try
             {
-                a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
-                a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
-                a.setIsMoving(true);
-                a.Camina();
+                foreach (Aldeano a in World.getPlayer2().getListAldeanos())
+                {
+                    a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
+                    a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
+                    a.setIsMoving(true);
+                    a.Camina();
+                }
+                foreach (UnidadMilitar a in World.getPlayer2().getlistMilicia())
+                {
+                    a.setProvX(World.getPlayer().getCoordInicalMapX() + rnd.Next(200, 1000));
+                    a.setProvY(World.getPlayer().getCoordInicalMapY() + rnd.Next(200, 1000));
+                    a.setIsMoving(true);
+                    a.Camina();
+                }
+                foreach (UnidadMilitar a in World.getPlayer2().getListUespecial())
+                {
+                    a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
+                    a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
+                    a.setIsMoving(true);
+                    a.Camina();
+                }
+                foreach (UnidadMilitar a in World.getPlayer2().getListNaves())
+                {
+                    a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
+                    a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
+                    a.setIsMoving(true);
+                    a.Camina();
+                }
             }
-            foreach (UnidadMilitar a in World.getPlayer2().getlistMilicia())
-            {
-                a.setProvX(World.getPlayer().getCoordInicalMapX() + rnd.Next(200, 1000));
-                a.setProvY(World.getPlayer().getCoordInicalMapY() + rnd.Next(200, 1000));
-                a.setIsMoving(true);
-                a.Camina();
-            }
-            foreach (UnidadMilitar a in World.getPlayer2().getListUespecial())
-            {
-                a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
-                a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
-                a.setIsMoving(true);
-                a.Camina();
-            }
-            foreach (UnidadMilitar a in World.getPlayer2().getListNaves())
-            {
-                a.setProvX(World.getPlayer2().getCoordInicalMapX() + rnd.Next(100, 1000));
-                a.setProvY(World.getPlayer2().getCoordInicalMapY() + rnd.Next(100, 1000));
-                a.setIsMoving(true);
-                a.Camina();
-            }
+            catch { }
         }
 
         public void RevisaRecogidaPlayer(object obj, ElapsedEventArgs arg)
@@ -1131,6 +1135,9 @@ namespace Scroll_fondo
                                             TFrames.Stop();
                                             TUMFrames.Stop();
                                             TVerificaAtaque.Stop();
+                                            TEdificioEnem.Stop();
+                                            TMovimientoEnem.Stop();
+                                            TFramesEnem.Stop();
                                             menuStart();
                                         }
                                     }
@@ -1145,10 +1152,18 @@ namespace Scroll_fondo
         private void PrintStatus()
         {
             int UM = World.getPlayer().getlistMilicia().Count + World.getPlayer().getListNaves().Count + World.getPlayer().getListUespecial().Count;
-            grap.DrawString("Aldeanos: " + World.getPlayer().getListAldeanos().Count, fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 105);
-            grap.DrawString("Unidades Militares: " + UM, fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 90);
-            grap.DrawString("Mineral: " + World.getPlayer().getMineral(), fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 75);
-            grap.DrawString("Comida: " + World.getPlayer().getComida(), fnt, bsh, 360, Form1.ActiveForm.ClientSize.Height - 60);
+            grap.DrawString("JUGADOR", fnt, bsh, 370, Form1.ActiveForm.ClientSize.Height - 105);
+            grap.DrawString("Aldeanos: " + World.getPlayer().getListAldeanos().Count, fnt, bsh, 370, Form1.ActiveForm.ClientSize.Height - 90);
+            grap.DrawString("Unidades Militares: " + UM, fnt, bsh, 370, Form1.ActiveForm.ClientSize.Height - 75);
+            grap.DrawString("Mineral: " + World.getPlayer().getMineral(), fnt, bsh, 370, Form1.ActiveForm.ClientSize.Height - 60);
+            grap.DrawString("Comida: " + World.getPlayer().getComida(), fnt, bsh, 370, Form1.ActiveForm.ClientSize.Height - 45);
+            //Player 2
+            int UM2 = World.getPlayer2().getlistMilicia().Count + World.getPlayer2().getListNaves().Count + World.getPlayer2().getListUespecial().Count;
+            grap.DrawString("CPU", fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 105);
+            grap.DrawString("Aldeanos: " + World.getPlayer2().getListAldeanos().Count, fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 90);
+            grap.DrawString("Unidades Militares: " + UM2, fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 75);
+            grap.DrawString("Mineral: " + World.getPlayer2().getMineral(), fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 60);
+            grap.DrawString("Comida: " + World.getPlayer2().getComida(), fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 45);
         }
     }
 }

@@ -26,8 +26,8 @@ namespace Scroll_fondo
         int coordmapY;
         public Mundo(int i,bool band)
         {
-            if (band) { Player2 = new Player(false); } else { Player2 = new Player(true); }
             player1 = new Player(band);
+            if (band) { Player2 = new Player(false, player1.getCoordInicalMapY(), player1.getCoordInicalMapX()); } else { Player2 = new Player(true, player1.getCoordInicalMapY(), player1.getCoordInicalMapX()); }
             RecursoMineral = new List<Mineral>();
             RecursoComida = new List<Comida>();
             if (i == 1) { escenario = (Bitmap)Image.FromFile("fondo.png"); }

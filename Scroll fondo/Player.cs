@@ -61,6 +61,41 @@ namespace Scroll_fondo
             material = 200;
         }
 
+        public Player(bool band, int x, int y)
+        {
+            bando = band;
+            CUs = new List<Edificio>();
+            Uespecial = new List<UnidadMilitar>();
+            Naves = new List<UnidadMilitar>();
+            milicia = new List<UnidadMilitar>();
+            aldeanos = new List<Aldeano>();
+            Farms = new List<Edificio>();
+            Cuarteles = new List<Edificio>();
+            CoordInicialMapX = x;
+            CoordInicialMapY = y;
+            for (int i = 0; i < 3; i++)
+            {
+                al = new Aldeano(CoordInicialMapX + r.Next(50, 71), CoordInicialMapY); //coordenadas de inicio
+                aldeanos.Add(al);
+            }
+            Edificio cu;
+            if (bando == true) { cu = new Edificio(CoordInicialMapX, CoordInicialMapY, "CUJ"); }
+            else
+            {
+                cu = new Edificio(CoordInicialMapX, CoordInicialMapY, "CUS");
+            }
+            CUs.Add(cu);
+            UnidadMilitar umil;
+            if (bando == true) { umil = new UnidadMilitar(CoordInicialMapX + r.Next(5), CoordInicialMapY + r.Next(5), "str1"); }
+            else
+            {
+                umil = new UnidadMilitar(CoordInicialMapX + r.Next(5), CoordInicialMapY + r.Next(5), "robo1");
+            }
+            milicia.Add(umil);
+            food = 250;
+            material = 200;
+        }
+
         public int getMineral()
         {
             return material;

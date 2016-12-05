@@ -151,7 +151,7 @@ namespace Scroll_fondo
         {
             animacion.Clear();
             currentIndex = 0;
-            if (NameUnidad == "jediW (1)")
+            if (NameUnidad == "jediW (3)")
             {
                 //addFrame((Bitmap)Image.FromFile("jediW (1).png"));
                 //addFrame((Bitmap)Image.FromFile("jediW (2).png"));
@@ -162,7 +162,7 @@ namespace Scroll_fondo
             }
             else
             {
-                if (NameUnidad == "sithW (1)")
+                if (NameUnidad == "sithW (3)")
                 {
                     //addFrame((Bitmap)Image.FromFile("sithW (1).png"));
                     //addFrame((Bitmap)Image.FromFile("sithW (2).png"));
@@ -225,7 +225,7 @@ namespace Scroll_fondo
         {
             animacion.Clear();
             currentIndex = 0;
-            if (NameUnidad == "jediW (1)")
+            if (NameUnidad == "jediW (3)")
             {
                 addFrame((Bitmap)Image.FromFile("jediA (1).png"));
                 addFrame((Bitmap)Image.FromFile("jediA (2).png"));
@@ -239,7 +239,7 @@ namespace Scroll_fondo
             }
             else
             {
-                if (NameUnidad == "sithW (1)")
+                if (NameUnidad == "sithW (3)")
                 {
                     addFrame((Bitmap)Image.FromFile("sithA (1).png"));
                     addFrame((Bitmap)Image.FromFile("sithA (2).png"));
@@ -296,13 +296,13 @@ namespace Scroll_fondo
         {
             animacion.Clear();
             currentIndex = 0;
-            if (NameUnidad == "jediW (1)")
+            if (NameUnidad == "jediW (3)")
             {
                 addFrame((Bitmap)Image.FromFile("jediA (3).png"));
             }
             else
             {
-                if (NameUnidad == "sithW (1)")
+                if (NameUnidad == "sithW (3)")
                 {
                     addFrame((Bitmap)Image.FromFile("sithA (3).png"));                    
                 }
