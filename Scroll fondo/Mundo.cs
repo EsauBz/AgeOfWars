@@ -7,14 +7,20 @@ using System.Threading.Tasks;
 
 namespace Scroll_fondo
 {
-    class Mundo
+    /*
+     * 
+     La clase mundo contiene a dos jugadores, uno es el jugador humano, el otro es el jugador maquina representado por
+     procesamiento realizado por Timers. El mundo tiene una lista de minerales y comida que son los recursos del mundo
+     y un bitmap llamado barra que representa la barra de herramientas del juego.
+         */
+    class Mundo 
     {
-        Random r = new Random();
-        private List<Mineral> RecursoMineral;
-        private List<Comida> RecursoComida;
-        private Bitmap escenario;
-        private Player player1;
-        private Player Player2;
+        Random r = new Random(); 
+        private List<Mineral> RecursoMineral; //Lista de recurso de Mineral
+        private List<Comida> RecursoComida; //Lista de recurso de Comida 
+        private Bitmap escenario; // Bitmap que tiene uno de los dos fondos elaborados para el juego.
+        private Player player1; //Primer Jugador: Humano
+        private Player Player2; //Segundo Jugador 
         Bitmap barra = (Bitmap)Image.FromFile("barr1.png");
         int coordmapX;
         int coordmapY;
