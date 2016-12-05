@@ -122,16 +122,27 @@ namespace Scroll_fondo
             {
                 foreach (Mineral b in RecursoMineral)// Revisar Recogida Aldeanos
                 {
-                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY()+b.getAlto() ||
-                        a.getMapX()+a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
                         a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
                         a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
                     {
                         player1.setMineral(player1.getListFarms().Count);
+                        b.disminuyeRecurso(player1.getListFarms().Count);
                     }
                 }
             }
-            //
+            for (int cont = 0; cont < RecursoMineral.Count; cont++)
+            {
+                if (RecursoMineral[cont].getRecurso() <= 0)
+                {
+                    RecursoMineral.RemoveAt(cont);
+                    cont--;
+                }
+            }
+        }
+        public void RevisaRecogidaComida()
+        { 
             foreach (Aldeano a in player1.getListAldeanos())// Revisar Recogida Aldeanos
             {
                 foreach (Comida b in RecursoComida)// Revisar Recogida Aldeanos
@@ -142,16 +153,8 @@ namespace Scroll_fondo
                         a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
                     {
                         player1.setComida(player1.getListFarms().Count);
+                        b.disminuyeRecurso(player1.getListFarms().Count);
                     }
-                }
-            }
-
-            for(int cont = 0; cont < RecursoMineral.Count; cont++)
-            {
-                if(RecursoMineral[cont].getRecurso() <= 0)
-                {
-                    RecursoMineral.RemoveAt(cont);
-                    cont--;
                 }
             }
             for (int j = 0; j < RecursoComida.Count; j++)

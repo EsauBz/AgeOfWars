@@ -39,16 +39,16 @@ namespace Scroll_fondo
         }
         private void EscogeAtaqueUnidadMilitar()
         {
-            if(NameUnidad == "Jedi") { ataque = 20; lifeSoldado = 125; costoComida = 20; costoMineral = 20;  /*ancho alto*/ }
+            if(NameUnidad == "jediW (1)") { ataque = 20; lifeSoldado = 125; costoComida = 50; costoMineral = 50;  /*ancho alto*/ }
             else
             {
-                if (NameUnidad == "Sith") { ataque = 10; lifeSoldado = 175; costoComida = 20; costoMineral = 20;  /*ancho alto*/ }
+                if (NameUnidad == "sithW (1)") { ataque = 10; lifeSoldado = 175; costoComida = 50; costoMineral = 50;  /*ancho alto*/ }
                 else
                 {
-                    if (NameUnidad == "str1" || NameUnidad == "robo1") { ataque = 5; lifeSoldado = 100; costoComida = 10; costoMineral = 10;/*ancho alto*/ }
+                    if (NameUnidad == "str1" || NameUnidad == "robo1") { ataque = 5; lifeSoldado = 100; costoComida = 30; costoMineral = 30;/*ancho alto*/ }
                     else
                     {
-                        if (NameUnidad == "NaveJedi" || NameUnidad == "NaveSith") { ataque = 25; lifeSoldado = 80; costoComida = 30; costoMineral = 30; }
+                        if (NameUnidad == "navejedi (1)" || NameUnidad == "navesith (1)") { ataque = 25; lifeSoldado = 80; costoComida = 100; costoMineral = 100; }
                     }
                 }
             }

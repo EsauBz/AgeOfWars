@@ -20,6 +20,7 @@ namespace Scroll_fondo
         private bool painted;
         private int lifeAldeano;
         private int DrawPercLife;
+        private int costoComida;
         public Aldeano(int x1 , int y1)
         {
             painted = false;            
@@ -30,7 +31,14 @@ namespace Scroll_fondo
             selected = false;
             lifeAldeano = 50;
             DrawPercLife = lifeAldeano / 4;
+            costoComida = 50;
         }
+
+        public int getCostoComida()
+        {
+            return costoComida;
+        }
+
         public int getPercentLifeDraw()
         {
             return DrawPercLife;

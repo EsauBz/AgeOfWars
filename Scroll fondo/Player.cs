@@ -35,6 +35,7 @@ namespace Scroll_fondo
             milicia = new List<UnidadMilitar>();
             aldeanos = new List<Aldeano>();
             Farms = new List<Edificio>();
+            Cuarteles = new List<Edificio>();
             CoordInicialMapX = r.Next(100,2901); //random para aparecer al azar
             CoordInicialMapY = r.Next(100, 2901);// random para aparecer al azar
             for(int i = 0; i < 3; i++)
@@ -56,8 +57,8 @@ namespace Scroll_fondo
                 umil = new UnidadMilitar(CoordInicialMapX + r.Next(5), CoordInicialMapY + r.Next(5), "robo1");
             }
             milicia.Add(umil);         
-            food = 200;
-            material = 150;
+            food = 250;
+            material = 200;
         }
 
         public int getMineral()
@@ -105,6 +106,11 @@ namespace Scroll_fondo
             return Farms;
         }
 
+        public List<Edificio> getListCuarteles()
+        {
+            return Cuarteles;
+        }
+
         public int getCoordInicalMapX()
         {
             return CoordInicialMapX;
@@ -121,6 +127,19 @@ namespace Scroll_fondo
         public void setComida(int addRecurso)
         {
             food += addRecurso;
+        }
+        public void restaComida(int gasto)
+        {
+            food -= gasto;
+        }
+        public void restaMineral(int gasto)
+        {
+            material -= gasto;
+        }
+
+        public bool getBando()
+        {
+            return bando;
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Scroll_fondo
             recurso = 100;
             mapX = x;
             mapY = y;
+            ancho = img.Size.Width;
+            alto = img.Size.Height;
         }
         public int getRecurso()
         {

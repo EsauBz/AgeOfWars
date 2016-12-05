@@ -15,6 +15,7 @@ namespace Scroll_fondo
     public partial class Form1 : Form
     {
         /*Inicio  de Variables del Programa* ********/
+        Random rnd = new Random();
         Font fnt;
         Brush bsh;
         Menu menu;
@@ -31,6 +32,8 @@ namespace Scroll_fondo
         int LimitePantY2 = 4123;
         Pen p;
         System.Timers.Timer Trecurso = new System.Timers.Timer();
+        System.Timers.Timer Tcomida = new System.Timers.Timer();
+        System.Timers.Timer Tcuarteles = new System.Timers.Timer();
         /*Inicio de Constructor ************/
         public Form1()
         {
@@ -54,10 +57,19 @@ namespace Scroll_fondo
             bordeY2 = bordeY1 + this.ClientSize.Height;
             p = new Pen(Color.Green);
             p.Width = 10;
-            /*Variable Timer*/
+            /*Variables Timers Game*/
             Trecurso.Interval = 1000;
             Trecurso.Elapsed += RevisaRecogidaPlayer;
             Trecurso.Start();
+            /**********************/
+            Tcomida.Interval = 1000;
+            Tcomida.Elapsed += RevisaComidaPlayer;
+            Tcomida.Start();
+            /****************************/
+            Tcuarteles.Interval = 1000;
+            Tcuarteles.Elapsed += RevisaCuartelesPlayer;
+            Tcuarteles.Start();
+            /****************************/
         }
 
         public void Start()
@@ -75,7 +87,44 @@ namespace Scroll_fondo
 
         public void RevisaRecogidaPlayer(object obj, ElapsedEventArgs arg)
         {
-            World.revisaRecogidaAldeanos();
+            try
+            {
+                World.revisaRecogidaAldeanos();
+            }
+            catch
+            {
+
+            }
+            Invalidate();
+        }
+
+        public void RevisaComidaPlayer(object obj, ElapsedEventArgs arg)
+        {
+            try
+            {
+                World.RevisaRecogidaComida();
+            }
+            catch
+            {
+
+            }
+            Invalidate();
+        }
+        public void RevisaCuartelesPlayer(object obj, ElapsedEventArgs arg)
+        {
+            try
+            {
+                if (World.getPlayer().getListCuarteles().Count < 1)
+                {
+                    menu.getBotones()[1].setVisible(false);
+                    menu.getBotones()[2].setVisible(false);
+                    menu.getBotones()[3].setVisible(false);
+                }
+            }
+            catch
+            {
+
+            }
             Invalidate();
         }
 
@@ -88,8 +137,12 @@ namespace Scroll_fondo
                     //Jugar
                     grap.DrawImage(World.getImgMundo(), World.getcoordmapX(), World.getcoordmapY());//escenario  
                     printRec();
-                    printCUs(World.getPlayer());                   
+                    printCUs(World.getPlayer());
+                    printCuarteles(World.getPlayer());
+                    printFarms(World.getPlayer());                   
                     printAldeanos(World.getPlayer());
+                    printUespecial(World.getPlayer());
+                    printNaves(World.getPlayer());
                     printMilicia(World.getPlayer());             
                     grap.DrawImage(World.getImgBarra(), 0, this.ClientSize.Height - World.getImgBarra().Size.Height); //416
                     PintaBotones();
@@ -111,9 +164,32 @@ namespace Scroll_fondo
 
         }
 
+        private void printCuarteles(Player p)
+        {
+            foreach (Edificio ed in p.getListCuarteles())// metodo de acceso
+            {
+                if (ed.getMapX() + ed.getAncho() >= bordeX1 && ed.getMapX() <= bordeX2 && ed.getMapY() + ed.getAlto() >= bordeY1 && ed.getMapY() <= bordeY2)
+                {
+                    ed.SetPaintedSprite(true);
+                    grap.DrawImage(ed.img, ed.getMapX() + World.getcoordmapX(), ed.getMapY() + World.getcoordmapY());
+                }
+            }
+        }
+
         private void printCUs(Player p)
         {
             foreach (Edificio ed in p.getlistCUs())// metodo de acceso
+            {
+                if (ed.getMapX() + ed.getAncho() >= bordeX1 && ed.getMapX() <= bordeX2 && ed.getMapY() + ed.getAlto() >= bordeY1 && ed.getMapY() <= bordeY2)
+                {
+                    ed.SetPaintedSprite(true);
+                    grap.DrawImage(ed.img, ed.getMapX() + World.getcoordmapX(), ed.getMapY() + World.getcoordmapY());
+                }
+            }
+        }
+        private void printFarms(Player p)
+        {
+            foreach (Edificio ed in p.getListFarms())// metodo de acceso
             {
                 if (ed.getMapX() + ed.getAncho() >= bordeX1 && ed.getMapX() <= bordeX2 && ed.getMapY() + ed.getAlto() >= bordeY1 && ed.getMapY() <= bordeY2)
                 {
@@ -162,6 +238,37 @@ namespace Scroll_fondo
         private void printMilicia(Player p)
         {
             foreach (UnidadMilitar a in p.getlistMilicia())// metodo de acceso
+            {
+                if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
+                {
+                    a.SetPaintedSprite(true);
+                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    if (a.GetSpriteSelected() == true)
+                    {
+                        grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
+                    }
+                }
+            }
+        }
+
+        private void printUespecial(Player p)
+        {
+            foreach (UnidadMilitar a in p.getListUespecial())// metodo de acceso
+            {
+                if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
+                {
+                    a.SetPaintedSprite(true);
+                    grap.DrawImage(a.img, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY());
+                    if (a.GetSpriteSelected() == true)
+                    {
+                        grap.DrawLine(this.p, a.getMapX() + World.getcoordmapX(), a.getMapY() + World.getcoordmapY(), a.getMapX() + World.getcoordmapX() + a.getPercentLifeDraw(), a.getMapY() + World.getcoordmapY());
+                    }
+                }
+            }
+        }
+        private void printNaves(Player p)
+        {
+            foreach (UnidadMilitar a in p.getListNaves())// metodo de acceso
             {
                 if (a.getMapX() + a.getAncho() >= bordeX1 && a.getMapX() <= bordeX2 && a.getMapY() + a.getAlto() >= bordeY1 && a.getMapY() <= bordeY2)
                 {
@@ -255,6 +362,7 @@ namespace Scroll_fondo
                 {
                     checkLeftAldeanos(x, y);
                     checkLeftMilicia(x, y);
+                    checkButtons(x, y);
                 }
                 if (e.Button == MouseButtons.Right)
                 {
@@ -285,7 +393,7 @@ namespace Scroll_fondo
             {
                 foreach (Aldeano a in World.getPlayer().getListAldeanos())
                 {
-                    a.SetSpriteSelected(false);
+                    if (y < this.ClientSize.Height - World.getImgBarra().Size.Height) { a.SetSpriteSelected(false); }
                 }
             }
         }
@@ -436,6 +544,124 @@ namespace Scroll_fondo
         private void AyudaMenu(int x, int y)
         {
 
+        }
+        private void checkButtons(int x, int y)
+        {
+            if (x > menu.getBotones()[0].getX() && x < menu.getBotones()[0].getX() + menu.getBotones()[0].getAncho() && y > menu.getBotones()[0].getY() && y < menu.getBotones()[0].getY() + menu.getBotones()[0].getAlto())
+            {
+                //Aldeano
+                if(World.getPlayer().getComida() - World.getPlayer().getListAldeanos()[0].getCostoComida() >= 0)
+                {
+                    Aldeano aux = new Aldeano(World.getPlayer().getCoordInicalMapX() + rnd.Next(30, 50), World.getPlayer().getCoordInicalMapY() + rnd.Next(30, 50));
+                    World.getPlayer().AddAldeano(aux);
+                    World.getPlayer().restaComida(aux.getCostoComida());
+                }
+            }
+            else
+            {
+                if (x > menu.getBotones()[1].getX() && x < menu.getBotones()[1].getX() + menu.getBotones()[1].getAncho() && y > menu.getBotones()[1].getY() && y < menu.getBotones()[1].getY() + menu.getBotones()[1].getAlto())
+                {
+                    //Soldado
+                    UnidadMilitar aux;
+                    if (World.getPlayer().getComida() - 30 >= 0 && World.getPlayer().getMineral() - 30 >= 0 && World.getPlayer().getListCuarteles().Count > 0)
+                    {
+                        if (World.getPlayer().getBando() == true) {  aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "str1"); }
+                        else {  aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "robo1"); }
+                        World.getPlayer().getlistMilicia().Add(aux);
+                        World.getPlayer().restaComida(30);
+                        World.getPlayer().restaMineral(30);
+                    }
+                }
+                else
+                {
+                    if (x > menu.getBotones()[2].getX() && x < menu.getBotones()[2].getX() + menu.getBotones()[2].getAncho() && y > menu.getBotones()[2].getY() && y < menu.getBotones()[2].getY() + menu.getBotones()[2].getAlto())
+                    {
+                        //SoldadoEspecial
+                        UnidadMilitar aux;
+                        if (World.getPlayer().getComida() - 50 >= 0 && World.getPlayer().getMineral() - 50 >= 0 && World.getPlayer().getListCuarteles().Count > 0)
+                        {
+                            if (World.getPlayer().getBando() == true) { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "jediW (1)"); }
+                            else { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "sithW (1)"); }
+                            World.getPlayer().getListUespecial().Add(aux);
+                            World.getPlayer().restaComida(50);
+                            World.getPlayer().restaMineral(50);
+                        }
+                    }
+                    else
+                    {
+                        if (x > menu.getBotones()[3].getX() && x < menu.getBotones()[3].getX() + menu.getBotones()[3].getAncho() && y > menu.getBotones()[3].getY() && y < menu.getBotones()[3].getY() + menu.getBotones()[3].getAlto())
+                        {
+                            //Nave
+                            UnidadMilitar aux;
+                            if (World.getPlayer().getComida() - 100 >= 0 && World.getPlayer().getMineral() - 100 >= 0 && World.getPlayer().getListCuarteles().Count > 0)
+                            {
+                                if (World.getPlayer().getBando() == true) { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "navejedi (1)"); }
+                                else { aux = new UnidadMilitar(World.getPlayer().getListCuarteles()[0].getMapX() + rnd.Next(30, 50), World.getPlayer().getListCuarteles()[0].getMapY() + rnd.Next(30, 50), "navesith (1)"); }
+                                World.getPlayer().getListNaves().Add(aux);
+                                World.getPlayer().restaComida(100);
+                                World.getPlayer().restaMineral(100);
+                            }
+                        }
+                        else
+                        {
+                            if (x > menu.getBotones()[4].getX() && x < menu.getBotones()[4].getX() + menu.getBotones()[4].getAncho() && y > menu.getBotones()[4].getY() && y < menu.getBotones()[4].getY() + menu.getBotones()[4].getAlto())
+                            {
+                                //Centro
+                                Edificio aux;
+                                for(int cont = 0; cont < World.getPlayer().getListAldeanos().Count; cont++)
+                                {
+                                    if(World.getPlayer().getListAldeanos()[cont].GetSpriteSelected() == true && World.getPlayer().getMineral() - 100 >= 0)
+                                    {
+                                        if (World.getPlayer().getBando() == true) { aux = new Edificio(World.getPlayer().getListAldeanos()[cont].getMapX() + rnd.Next(30, 50), World.getPlayer().getListAldeanos()[cont].getMapY() + rnd.Next(30, 50), "CUJ"); }
+                                        else { aux = new Edificio(World.getPlayer().getListAldeanos()[cont].getMapX() + rnd.Next(30, 50), World.getPlayer().getListAldeanos()[cont].getMapY() + rnd.Next(30, 50), "CUS"); }
+                                        World.getPlayer().getlistCUs().Add(aux);
+                                        World.getPlayer().restaMineral(100);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (x > menu.getBotones()[5].getX() && x < menu.getBotones()[5].getX() + menu.getBotones()[5].getAncho() && y > menu.getBotones()[5].getY() && y < menu.getBotones()[5].getY() + menu.getBotones()[5].getAlto())
+                                {
+                                    //cuartel
+                                    Edificio aux;
+                                    for (int cont = 0; cont < World.getPlayer().getListAldeanos().Count; cont++)
+                                    {
+                                        if (World.getPlayer().getListAldeanos()[cont].GetSpriteSelected() == true && World.getPlayer().getMineral() - 100 >= 0)
+                                        {
+                                            menu.getBotones()[1].setVisible(true);
+                                            menu.getBotones()[2].setVisible(true);
+                                            menu.getBotones()[3].setVisible(true);
+                                            aux = new Edificio(World.getPlayer().getListAldeanos()[cont].getMapX() + rnd.Next(30, 50), World.getPlayer().getListAldeanos()[cont].getMapY() + rnd.Next(30, 50), "cuartel");
+                                            World.getPlayer().getListCuarteles().Add(aux);
+                                            World.getPlayer().restaMineral(100);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (x > menu.getBotones()[6].getX() && x < menu.getBotones()[6].getX() + menu.getBotones()[6].getAncho() && y > menu.getBotones()[6].getY() && y < menu.getBotones()[6].getY() + menu.getBotones()[6].getAlto())
+                                    {
+                                        //Granja
+                                        Edificio aux;
+                                        for (int cont = 0; cont < World.getPlayer().getListAldeanos().Count; cont++)
+                                        {
+                                            if (World.getPlayer().getListAldeanos()[cont].GetSpriteSelected() == true && World.getPlayer().getMineral() - 100 >= 0 && World.getPlayer().getComida() - 100 >= 0)
+                                            {
+                                                aux = new Edificio(World.getPlayer().getListAldeanos()[cont].getMapX() + rnd.Next(30, 50), World.getPlayer().getListAldeanos()[cont].getMapY() + rnd.Next(30, 50), "Farm");
+                                                World.getPlayer().getListFarms().Add(aux);
+                                                World.getPlayer().restaMineral(100);
+                                                World.getPlayer().restaComida(100);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Invalidate();
         }
         private void PrintStatus()
         {
