@@ -227,7 +227,7 @@ namespace Scroll_fondo
             currentIndex = 0;
             if (NameUnidad == "jediW (3)")
             {
-                addFrame((Bitmap)Image.FromFile("jediA (1).png"));
+                //addFrame((Bitmap)Image.FromFile("jediA (1).png"));
                 addFrame((Bitmap)Image.FromFile("jediA (2).png"));
                 addFrame((Bitmap)Image.FromFile("jediA (3).png"));
                 addFrame((Bitmap)Image.FromFile("jediA (4).png"));
@@ -241,7 +241,7 @@ namespace Scroll_fondo
             {
                 if (NameUnidad == "sithW (3)")
                 {
-                    addFrame((Bitmap)Image.FromFile("sithA (1).png"));
+                    //addFrame((Bitmap)Image.FromFile("sithA (1).png"));
                     addFrame((Bitmap)Image.FromFile("sithA (2).png"));
                     addFrame((Bitmap)Image.FromFile("sithA (3).png"));
                     addFrame((Bitmap)Image.FromFile("sithA (4).png"));
@@ -389,6 +389,6 @@ namespace Scroll_fondo
         public void SetPaintedSprite(bool a)
         {
             painted = a;
-        }
+        }        
     }
 }

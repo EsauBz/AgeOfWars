@@ -41,6 +41,7 @@ namespace Scroll_fondo
         System.Timers.Timer TEdificioEnem = new System.Timers.Timer();
         System.Timers.Timer TMovimientoEnem = new System.Timers.Timer();
         System.Timers.Timer TFramesEnem = new System.Timers.Timer();
+        System.Timers.Timer Timer1BatallaCampal = new System.Timers.Timer();
         /*Inicio de Constructor ************/
         public Form1()
         {
@@ -84,7 +85,9 @@ namespace Scroll_fondo
             /****************************/
             TMovimientoEnem.Start();
             /*****************************/
-            TFramesEnem.Start(); 
+            TFramesEnem.Start();
+            /*****************************/
+            Timer1BatallaCampal.Start();
         }
         private void InicializaTimers()
         {
@@ -107,9 +110,6 @@ namespace Scroll_fondo
             TUMFrames.Interval = 15;
             TUMFrames.Elapsed += UpdateAnimaMil;
             /****************************/
-            TVerificaAtaque.Interval = 15;
-            TVerificaAtaque.Elapsed += RevisaColisionAtaque;
-            /****************************/
             TEdificioEnem.Interval = 30000;
             TEdificioEnem.Elapsed += GeneraEdificioEnem;
             /****************************/
@@ -118,6 +118,9 @@ namespace Scroll_fondo
             /****************************/
             TFramesEnem.Interval = 15;
             TFramesEnem.Elapsed += MueveEnem;
+            /****************************/
+            Timer1BatallaCampal.Interval = 1000;
+            Timer1BatallaCampal.Elapsed += ColisionPeleaCampal1;
         }
         public void Start()
         {
@@ -130,6 +133,19 @@ namespace Scroll_fondo
             button1.Visible = true;
             axWindowsMediaPlayer1.Ctlcontrols.play();
             /******************************************************************/
+        }
+
+        public void ColisionPeleaCampal1(object obj, ElapsedEventArgs args)
+        {
+            try
+            {
+                World.RevisaColisionCampal1();
+            }
+            catch
+            {
+
+            }
+            Invalidate();
         }
 
         public void GeneraEdificioEnem(object obj, ElapsedEventArgs args)
@@ -240,19 +256,6 @@ namespace Scroll_fondo
             Invalidate();
         }
 
-        public void RevisaColisionAtaque(object obj, ElapsedEventArgs arg)
-        {
-            try
-            {
-                World.RevisaAtacarEnemigo();
-            }
-            catch
-            {
-
-            }
-            Invalidate();
-        }
-
         public void RevisaCUDestruidos(object obj, ElapsedEventArgs arg)
         {
             try
@@ -333,6 +336,8 @@ namespace Scroll_fondo
                     break;
                 case '3':
                     //Ayuda
+                    grap.DrawImage(menu.getImgfondo(), 0, 0);
+                    PintaBotones();
                     break;
                 case '1':
                     grap.DrawImage(menu.getImgfondo(), 0, 0);
@@ -930,6 +935,7 @@ namespace Scroll_fondo
                 if (x > menu.getBotones()[1].getX() && x < menu.getBotones()[1].getX() + menu.getBotones()[1].getAncho() && y > menu.getBotones()[1].getY() && y < menu.getBotones()[1].getY() + menu.getBotones()[1].getAlto())
                 {
                     //AYUDA
+                    StartAyudaMenu();
                 }
                 else
                 {
@@ -1011,7 +1017,20 @@ namespace Scroll_fondo
         }
         private void AyudaMenu(int x, int y)
         {
+            if (x > menu.getBotones()[0].getX() && x < menu.getBotones()[0].getX() + menu.getBotones()[0].getAncho() && y > menu.getBotones()[0].getY() && y < menu.getBotones()[0].getY() + menu.getBotones()[0].getAlto())
+            {
+                menuStart();
+            }
+        }
 
+        public void StartAyudaMenu()
+        {
+            opc = '3'; //Opcion 1 del paint para pintar menu.  
+            menu = new Menu("ayudita.png");
+            menu.getBotones().Clear();
+            this.Cursor = new Cursor("cursor2.cur"); //Se activa el cursor de espada.            
+            menu.GeneraBotonesAyudita(); //Carga Botones de Menu
+            Invalidate(); //Pinta lo que ya se cargo    
         }
         private void checkButtons(int x, int y)
         {
@@ -1138,6 +1157,7 @@ namespace Scroll_fondo
                                             TEdificioEnem.Stop();
                                             TMovimientoEnem.Stop();
                                             TFramesEnem.Stop();
+                                            Timer1BatallaCampal.Stop();
                                             menuStart();
                                         }
                                     }
@@ -1164,6 +1184,22 @@ namespace Scroll_fondo
             grap.DrawString("Unidades Militares: " + UM2, fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 75);
             grap.DrawString("Mineral: " + World.getPlayer2().getMineral(), fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 60);
             grap.DrawString("Comida: " + World.getPlayer2().getComida(), fnt, bsh, 660, Form1.ActiveForm.ClientSize.Height - 45);
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Salir Juego
+            Trecurso.Stop();
+            Tcomida.Stop();
+            Tcuarteles.Stop();
+            TCuD.Stop();
+            TFrames.Stop();
+            TUMFrames.Stop();
+            TVerificaAtaque.Stop();
+            TEdificioEnem.Stop();
+            TMovimientoEnem.Stop();
+            TFramesEnem.Stop();
+            Timer1BatallaCampal.Stop();
         }
     }
 }

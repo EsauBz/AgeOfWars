@@ -203,10 +203,1476 @@ namespace Scroll_fondo
             }
         }//Fin de metodo
 
-        public void RevisaAtacarEnemigo()
+        public void RevisaColisionCampal1()
         {
-            //Revisar las listas de unidades para saber si estan peleando
-            //COMPARACIONES
+            checkMilicia();
+            checkAldeano();
+            checkUespecial();
+            checkNaves();
+            checkCU();
+            checkFarms();
+            checkCuarteles();
+        }
+        public void checkMilicia()
+        {
+            foreach (UnidadMilitar a in player1.getlistMilicia())
+            {
+                foreach (UnidadMilitar b in Player2.getlistMilicia())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(10);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(10);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getlistMilicia().Count; j++)
+            {
+                if (player1.getlistMilicia()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getlistMilicia().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getlistMilicia().Count; j++)
+            {
+                if (Player2.getlistMilicia()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getlistMilicia().RemoveAt(j);
+                    j--;
+                }
+            }
+            /********** Aqui comienza el Segundo Foreach del metodo para revisar contra aldeanos*****/
+            foreach (UnidadMilitar a in player1.getlistMilicia())
+            {
+                foreach (Aldeano b in Player2.getListAldeanos())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(10);
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListAldeanos().Count; j++)
+            {
+                if (Player2.getListAldeanos()[j].getLifeAldeano() <= 0)
+                {
+                    Player2.getListAldeanos().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el tercer foreach del metodo aqui se compara contra Uespecial****/
+            foreach (UnidadMilitar a in player1.getlistMilicia())
+            {
+                foreach (UnidadMilitar b in Player2.getListUespecial())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(20);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(10);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getlistMilicia().Count; j++)
+            {
+                if (player1.getlistMilicia()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getlistMilicia().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getListUespecial().Count; j++)
+            {
+                if (Player2.getListUespecial()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListUespecial().RemoveAt(j);
+                    j--;
+                }
+            }
+            /*******  Aqui comienza el cuarto foreach del metodo aqui se compara contra naves******/
+            foreach (UnidadMilitar a in player1.getlistMilicia())
+            {
+                foreach (UnidadMilitar b in Player2.getListNaves())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(25);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(10);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getlistMilicia().Count; j++)
+            {
+                if (player1.getlistMilicia()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getlistMilicia().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getListNaves().Count; j++)
+            {
+                if (Player2.getListNaves()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListNaves().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el quinto if del metodo, aqui se compara contra eficios******/
+            foreach (UnidadMilitar a in player1.getlistMilicia())
+            {
+                foreach (Edificio b in Player2.getlistCUs())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(10);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getlistCUs().Count; j++)
+            {
+                if (Player2.getlistCUs()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getlistCUs().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****************************************************************************************/
+            foreach (UnidadMilitar a in player1.getlistMilicia())
+            {
+                foreach (Edificio b in Player2.getListFarms())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(10);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListFarms().Count; j++)
+            {
+                if (Player2.getListFarms()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListFarms().RemoveAt(j);
+                    j--;
+                }
+            }
+            /********************************************************************************************/
+            foreach (UnidadMilitar a in player1.getlistMilicia())
+            {
+                foreach (Edificio b in Player2.getListCuarteles())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(10);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListCuarteles().Count; j++)
+            {
+                if (Player2.getListCuarteles()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListCuarteles().RemoveAt(j);
+                    j--;
+                }
+            }
+            /***********************************************************************************************/
+        }
+        public void checkAldeano()
+        {
+            foreach (Aldeano a in player1.getListAldeanos())
+            {
+                foreach (UnidadMilitar b in Player2.getlistMilicia())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(10);                    
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListAldeanos().Count; j++)
+            {
+                if (player1.getListAldeanos()[j].getLifeAldeano() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListAldeanos().RemoveAt(j);
+                    j--;
+                }
+            }                        
+            /****** Aqui comienza el tercer foreach del metodo aqui se compara contra Uespecial****/
+            foreach (Aldeano a in player1.getListAldeanos())
+            {
+                foreach (UnidadMilitar b in Player2.getListUespecial())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(20);                       
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListAldeanos().Count; j++)
+            {
+                if (player1.getListAldeanos()[j].getLifeAldeano() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListAldeanos().RemoveAt(j);
+                    j--;
+                }
+            }            
+            /*******  Aqui comienza el cuarto foreach del metodo aqui se compara contra naves******/
+            foreach (Aldeano a in player1.getListAldeanos())
+            {
+                foreach (UnidadMilitar b in Player2.getListNaves())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(25);                       
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListAldeanos().Count; j++)
+            {
+                if (player1.getListAldeanos()[j].getLifeAldeano() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListAldeanos().RemoveAt(j);
+                    j--;
+                }
+            }                       
+            /***********************************************************************************************/
+        }
+        public void checkUespecial()
+        {
+            foreach (UnidadMilitar a in player1.getListUespecial())
+            {
+                foreach (UnidadMilitar b in Player2.getlistMilicia())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(10);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(20);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListUespecial().Count; j++)
+            {
+                if (player1.getListUespecial()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListUespecial().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getlistMilicia().Count; j++)
+            {
+                if (Player2.getlistMilicia()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getlistMilicia().RemoveAt(j);
+                    j--;
+                }
+            }
+            /********** Aqui comienza el Segundo Foreach del metodo para revisar contra aldeanos*****/
+            foreach (UnidadMilitar a in player1.getListUespecial())
+            {
+                foreach (Aldeano b in Player2.getListAldeanos())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(20);
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListAldeanos().Count; j++)
+            {
+                if (Player2.getListAldeanos()[j].getLifeAldeano() <= 0)
+                {
+                    Player2.getListAldeanos().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el tercer foreach del metodo aqui se compara contra Uespecial****/
+            foreach (UnidadMilitar a in player1.getListUespecial())
+            {
+                foreach (UnidadMilitar b in Player2.getListUespecial())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(20);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(20);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListUespecial().Count; j++)
+            {
+                if (player1.getListUespecial()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListUespecial().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getListUespecial().Count; j++)
+            {
+                if (Player2.getListUespecial()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListUespecial().RemoveAt(j);
+                    j--;
+                }
+            }
+            /*******  Aqui comienza el cuarto foreach del metodo aqui se compara contra naves******/
+            foreach (UnidadMilitar a in player1.getListUespecial())
+            {
+                foreach (UnidadMilitar b in Player2.getListNaves())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(25);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(20);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListUespecial().Count; j++)
+            {
+                if (player1.getListUespecial()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListUespecial().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getListNaves().Count; j++)
+            {
+                if (Player2.getListNaves()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListNaves().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el quinto if del metodo, aqui se compara contra eficios******/
+            foreach (UnidadMilitar a in player1.getListUespecial())
+            {
+                foreach (Edificio b in Player2.getlistCUs())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(20);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getlistCUs().Count; j++)
+            {
+                if (Player2.getlistCUs()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getlistCUs().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****************************************************************************************/
+            foreach (UnidadMilitar a in player1.getListUespecial())
+            {
+                foreach (Edificio b in Player2.getListFarms())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(20);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListFarms().Count; j++)
+            {
+                if (Player2.getListFarms()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListFarms().RemoveAt(j);
+                    j--;
+                }
+            }
+            /********************************************************************************************/
+            foreach (UnidadMilitar a in player1.getListUespecial())
+            {
+                foreach (Edificio b in Player2.getListCuarteles())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(20);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListCuarteles().Count; j++)
+            {
+                if (Player2.getListCuarteles()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListCuarteles().RemoveAt(j);
+                    j--;
+                }
+            }
+            /***********************************************************************************************/
+
+        }
+        public void checkNaves()
+        {
+            foreach (UnidadMilitar a in player1.getListNaves())
+            {
+                foreach (UnidadMilitar b in Player2.getlistMilicia())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(10);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(25);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListNaves().Count; j++)
+            {
+                if (player1.getListNaves()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListNaves().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getlistMilicia().Count; j++)
+            {
+                if (Player2.getlistMilicia()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getlistMilicia().RemoveAt(j);
+                    j--;
+                }
+            }
+            /********** Aqui comienza el Segundo Foreach del metodo para revisar contra aldeanos*****/
+            foreach (UnidadMilitar a in player1.getListNaves())
+            {
+                foreach (Aldeano b in Player2.getListAldeanos())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(25);
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListAldeanos().Count; j++)
+            {
+                if (Player2.getListAldeanos()[j].getLifeAldeano() <= 0)
+                {
+                    Player2.getListAldeanos().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el tercer foreach del metodo aqui se compara contra Uespecial****/
+            foreach (UnidadMilitar a in player1.getListNaves())
+            {
+                foreach (UnidadMilitar b in Player2.getListUespecial())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(20);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(25);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListNaves().Count; j++)
+            {
+                if (player1.getListNaves()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListNaves().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getListUespecial().Count; j++)
+            {
+                if (Player2.getListUespecial()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListUespecial().RemoveAt(j);
+                    j--;
+                }
+            }
+            /*******  Aqui comienza el cuarto foreach del metodo aqui se compara contra naves******/
+            foreach (UnidadMilitar a in player1.getListNaves())
+            {
+                foreach (UnidadMilitar b in Player2.getListNaves())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(25);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                        b.recibeDaño(25);
+                        if (b.getIataca() == false) { b.ataca(); b.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListNaves().Count; j++)
+            {
+                if (player1.getListNaves()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListNaves().RemoveAt(j);
+                    j--;
+                }
+            }
+            for (int j = 0; j < Player2.getListNaves().Count; j++)
+            {
+                if (Player2.getListNaves()[j].getLifeSoldado() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListNaves().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el quinto if del metodo, aqui se compara contra eficios******/
+            foreach (UnidadMilitar a in player1.getListNaves())
+            {
+                foreach (Edificio b in Player2.getlistCUs())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(25);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getlistCUs().Count; j++)
+            {
+                if (Player2.getlistCUs()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getlistCUs().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****************************************************************************************/
+            foreach (UnidadMilitar a in player1.getListNaves())
+            {
+                foreach (Edificio b in Player2.getListFarms())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(25);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListFarms().Count; j++)
+            {
+                if (Player2.getListFarms()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListFarms().RemoveAt(j);
+                    j--;
+                }
+            }
+            /********************************************************************************************/
+            foreach (UnidadMilitar a in player1.getListNaves())
+            {
+                foreach (Edificio b in Player2.getListCuarteles())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        b.recibeDaño(25);
+                        if (a.getIataca() == false) { a.ataca(); a.setIataca(true); }
+                    }
+                    else
+                    {
+                        a.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    a.Update();
+                }
+            }
+            for (int j = 0; j < Player2.getListCuarteles().Count; j++)
+            {
+                if (Player2.getListCuarteles()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in player1.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    Player2.getListCuarteles().RemoveAt(j);
+                    j--;
+                }
+            }
+            /***********************************************************************************************/
+
+        }
+        public void checkCU()
+        {
+            foreach (Edificio a in player1.getlistCUs())
+            {
+                foreach (UnidadMilitar b in Player2.getlistMilicia())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(10);                        
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getlistCUs().Count; j++)
+            {
+                if (player1.getlistCUs()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getlistCUs().RemoveAt(j);
+                    j--;
+                }
+            }                        
+            /****** Aqui comienza el tercer foreach del metodo aqui se compara contra Uespecial****/
+            foreach (Edificio a in player1.getlistCUs())
+            {
+                foreach (UnidadMilitar b in Player2.getListUespecial())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(20);                       
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getlistCUs().Count; j++)
+            {
+                if (player1.getlistCUs()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getlistCUs().RemoveAt(j);
+                    j--;
+                }
+            }                       
+            /*******  Aqui comienza el cuarto foreach del metodo aqui se compara contra naves******/
+            foreach (Edificio a in player1.getlistCUs())
+            {
+                foreach (UnidadMilitar b in Player2.getListNaves())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(25);                       
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getlistCUs().Count; j++)
+            {
+                if (player1.getlistCUs()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getlistCUs().RemoveAt(j);
+                    j--;
+                }
+            }                       
+        }
+
+        public void checkFarms()
+        {
+            foreach (Edificio a in player1.getListFarms())
+            {
+                foreach (UnidadMilitar b in Player2.getlistMilicia())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(10);
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListFarms().Count; j++)
+            {
+                if (player1.getListFarms()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListFarms().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el tercer foreach del metodo aqui se compara contra Uespecial****/
+            foreach (Edificio a in player1.getListFarms())
+            {
+                foreach (UnidadMilitar b in Player2.getListUespecial())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(20);
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListFarms().Count; j++)
+            {
+                if (player1.getListFarms()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListFarms().RemoveAt(j);
+                    j--;
+                }
+            }
+            /*******  Aqui comienza el cuarto foreach del metodo aqui se compara contra naves******/
+            foreach (Edificio a in player1.getListFarms())
+            {
+                foreach (UnidadMilitar b in Player2.getListNaves())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(25);
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListFarms().Count; j++)
+            {
+                if (player1.getListFarms()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListFarms().RemoveAt(j);
+                    j--;
+                }
+            }
+        }
+        public void checkCuarteles()
+        {
+            foreach (Edificio a in player1.getListCuarteles())
+            {
+                foreach (UnidadMilitar b in Player2.getlistMilicia())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(10);
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListCuarteles().Count; j++)
+            {
+                if (player1.getListCuarteles()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getlistMilicia())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListCuarteles().RemoveAt(j);
+                    j--;
+                }
+            }
+            /****** Aqui comienza el tercer foreach del metodo aqui se compara contra Uespecial****/
+            foreach (Edificio a in player1.getListCuarteles())
+            {
+                foreach (UnidadMilitar b in Player2.getListUespecial())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(20);
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListCuarteles().Count; j++)
+            {
+                if (player1.getListCuarteles()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListUespecial())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListCuarteles().RemoveAt(j);
+                    j--;
+                }
+            }
+            /*******  Aqui comienza el cuarto foreach del metodo aqui se compara contra naves******/
+            foreach (Edificio a in player1.getListCuarteles())
+            {
+                foreach (UnidadMilitar b in Player2.getListNaves())
+                {
+                    if (a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() >= b.getMapY() && a.getMapY() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() >= b.getMapX() && a.getMapX() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto() ||
+                        a.getMapX() + a.getAncho() >= b.getMapX() && a.getMapX() + a.getAncho() <= b.getMapX() + b.getAncho() && a.getMapY() + a.getAlto() >= b.getMapY() && a.getMapY() + a.getAlto() <= b.getMapY() + b.getAlto())
+                    {
+                        a.recibeDaño(25);
+                    }
+                    else
+                    {
+                        b.setIataca(false);
+                        //(a.getIcamina() == false) { a.parado(); }
+                    }
+                    b.Update();
+                }
+            }
+            for (int j = 0; j < player1.getListCuarteles().Count; j++)
+            {
+                if (player1.getListCuarteles()[j].getLifeEdificio() <= 0)
+                {
+                    foreach (UnidadMilitar a in Player2.getListNaves())
+                    {
+                        if (a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() >= RecursoComida[j].getMapY() && a.getMapY() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() >= RecursoComida[j].getMapX() && a.getMapX() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto() ||
+                        a.getMapX() + a.getAncho() >= RecursoComida[j].getMapX() && a.getMapX() + a.getAncho() <= RecursoComida[j].getMapX() + RecursoComida[j].getAncho() && a.getMapY() + a.getAlto() >= RecursoComida[j].getMapY() && a.getMapY() + a.getAlto() <= RecursoComida[j].getMapY() + RecursoComida[j].getAlto())
+                        {
+                            a.parado();
+                        }
+                    }
+                    player1.getListCuarteles().RemoveAt(j);
+                    j--;
+                }
+            }
         }
     }
 }
