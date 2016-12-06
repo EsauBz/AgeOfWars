@@ -42,6 +42,7 @@ namespace Scroll_fondo
         System.Timers.Timer TMovimientoEnem = new System.Timers.Timer();
         System.Timers.Timer TFramesEnem = new System.Timers.Timer();
         System.Timers.Timer Timer1BatallaCampal = new System.Timers.Timer();
+        System.Timers.Timer TimerGanaPierde = new System.Timers.Timer();
         /*Inicio de Constructor ************/
         public Form1()
         {
@@ -88,6 +89,8 @@ namespace Scroll_fondo
             TFramesEnem.Start();
             /*****************************/
             Timer1BatallaCampal.Start();
+            /******************************/
+            TimerGanaPierde.Start();
         }
         private void InicializaTimers()
         {
@@ -121,6 +124,9 @@ namespace Scroll_fondo
             /****************************/
             Timer1BatallaCampal.Interval = 1000;
             Timer1BatallaCampal.Elapsed += ColisionPeleaCampal1;
+            /****************************/
+            TimerGanaPierde.Interval = 15;
+            TimerGanaPierde.Elapsed += RevisaGanaPierde;
         }
         public void Start()
         {
@@ -1032,12 +1038,21 @@ namespace Scroll_fondo
             menu.GeneraBotonesAyudita(); //Carga Botones de Menu
             Invalidate(); //Pinta lo que ya se cargo    
         }
+        public void startPG(string m)
+        {
+            opc = '3'; //Opcion 1 del paint para pintar menu. 
+            menu = new Menu(m+".png");
+            //menu.getBotones().Clear();
+            //this.Cursor = new Cursor("cursor2.cur"); //Se activa el cursor de espada.            
+            menu.GeneraBotonesPG(); //Carga Botones de Menu
+            Invalidate(); //Pinta lo que ya se cargo    
+        }
         private void checkButtons(int x, int y)
         {
             if (x > menu.getBotones()[0].getX() && x < menu.getBotones()[0].getX() + menu.getBotones()[0].getAncho() && y > menu.getBotones()[0].getY() && y < menu.getBotones()[0].getY() + menu.getBotones()[0].getAlto())
             {
                 //Aldeano
-                if(World.getPlayer().getComida() - World.getPlayer().getListAldeanos()[0].getCostoComida() >= 0)
+                if(World.getPlayer().getComida() - 50 >= 0)
                 {
                     Aldeano aux = new Aldeano(World.getPlayer().getCoordInicalMapX() + rnd.Next(30, 50), World.getPlayer().getCoordInicalMapY() + rnd.Next(30, 50));
                     World.getPlayer().AddAldeano(aux);
@@ -1200,6 +1215,49 @@ namespace Scroll_fondo
             TMovimientoEnem.Stop();
             TFramesEnem.Stop();
             Timer1BatallaCampal.Stop();
+        }
+        private void RevisaGanaPierde(object obj, ElapsedEventArgs arg)
+        {
+            try {
+                if (World.getPlayer().getlistCUs().Count < 1)
+                {
+                    //Salir Juego
+                    Trecurso.Stop();
+                    Tcomida.Stop();
+                    Tcuarteles.Stop();
+                    TCuD.Stop();
+                    TFrames.Stop();
+                    TUMFrames.Stop();
+                    TVerificaAtaque.Stop();
+                    TEdificioEnem.Stop();
+                    TMovimientoEnem.Stop();
+                    TFramesEnem.Stop();
+                    Timer1BatallaCampal.Stop();
+                    TimerGanaPierde.Stop();
+                    startPG("perdido");
+                }
+                else
+                {
+                    if (World.getPlayer2().getlistCUs().Count < 1)
+                    {
+                        //Salir Juego
+                        Trecurso.Stop();
+                        Tcomida.Stop();
+                        Tcuarteles.Stop();
+                        TCuD.Stop();
+                        TFrames.Stop();
+                        TUMFrames.Stop();
+                        TVerificaAtaque.Stop();
+                        TEdificioEnem.Stop();
+                        TMovimientoEnem.Stop();
+                        TFramesEnem.Stop();
+                        Timer1BatallaCampal.Stop();
+                        TimerGanaPierde.Stop();
+                        startPG("ganado");
+                    }
+                }
+            }
+            catch { }
         }
     }
 }

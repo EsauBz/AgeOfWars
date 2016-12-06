@@ -74,6 +74,12 @@ namespace Scroll_fondo
             botones.Add(bot);
         }
 
+        public void GeneraBotonesPG()
+        {
+            bot = new boton(150, 400, "volver.jpg", 40, 100);
+            botones.Add(bot);
+        }
+
         public Bitmap getImgfondo()
         {
             return fondo;
