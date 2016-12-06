@@ -60,7 +60,7 @@ namespace Scroll_fondo
         {
             Random r = new Random();
             World = new Mundo(r.Next(0, 2),a);
-            menu = new Menu("bando5.jpg");
+            menu = new Menu("bando5.jpg", "fondomusica.wav");
             menu.getBotones().Clear();
             menu.GeneraBotonesGame();
             bordeX1 = World.getPlayer().getCoordInicalMapX() - 350;

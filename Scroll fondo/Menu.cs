@@ -23,6 +23,14 @@ namespace Scroll_fondo
             cancion.PlayLooping(); //Inicia la reproduccion de Sonido
         }
 
+        public Menu(string name, string can)
+        {
+            fondo = (Bitmap)Image.FromFile(name); //Variable fondo contiene la imagen de Background
+            botones = new List<boton>(); //Se crea lista de botones.
+            cancion = new SoundPlayer(can);
+            cancion.PlayLooping(); //Inicia la reproduccion de Sonido
+        }
+
         public void GeneraBotonesMenu()
         {
             bot = new boton(100, 300, "partnu.jpg", 40, 100);
